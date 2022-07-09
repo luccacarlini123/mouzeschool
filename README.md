@@ -8,10 +8,10 @@ Esta REST API foi criada com o intuito de automatizar e controlar algumas ativid
 
 Podemos matricular um aluno em uma turma; 
 
-Criar grade curricular de uma turma associando professores e matérias.
+Criar grade curricular de uma turma associando professores e matérias;
 
-Lançamento de notas por aluno.
+Lançamento de notas por aluno;
 
-Mudança de turma de um aluno.
+Mudança de turma de um aluno;
 
 Além de diversas consultas a esses dados...
