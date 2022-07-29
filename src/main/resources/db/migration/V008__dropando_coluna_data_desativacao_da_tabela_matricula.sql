@@ -1,0 +1,1 @@
+alter table matricula drop column data_desativacao;

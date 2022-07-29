@@ -1,0 +1,1 @@
+alter table matricula add column status varchar(10);
