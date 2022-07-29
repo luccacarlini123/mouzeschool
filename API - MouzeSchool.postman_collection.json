@@ -1,0 +1,962 @@
+{
+	"info": {
+		"_postman_id": "8f9e6406-2f33-457c-92d4-a39376b21aa5",
+		"name": "API - MouzeSchool",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11961119"
+	},
+	"item": [
+		{
+			"name": "Alunos",
+			"item": [
+				{
+					"name": "Cadastrar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Iuri Souza\",\r\n    \"dataNascimento\" : \"02/02/1998\",\r\n    \"email\" : \"iurisz@gmail.com\",\r\n    \"rg\" : \"123456789\",\r\n    \"cpf\" : \"16976587764\",\r\n    \"telefone\" : \"21966523256\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/alunos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"alunos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Iuri Souza\",\r\n    \"dataNascimento\" : \"02/02/1998\",\r\n    \"email\" : \"lucca@gmail.com\",\r\n    \"rg\" : \"123456789\",\r\n    \"cpf\" : \"16976520036\",\r\n    \"telefone\" : \"21966523256\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/alunos/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"alunos",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar endereço",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cep\": \"26600000\",\r\n    \"logradouro\" : \"Rua feliciana dos anjos teixeira\",\r\n    \"numero\" : \"582\",\r\n    \"complemento\" : \"Próximo ao antigo casarão\",\r\n    \"bairro\" : \"Sabugo\",\r\n    \"cidadeId\" : 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/alunos/1/endereco",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"alunos",
+								"1",
+								"endereco"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/alunos?size=10&page=0&sort=nome,desc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"alunos"
+							],
+							"query": [
+								{
+									"key": "size",
+									"value": "10"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "sort",
+									"value": "nome,desc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar por Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/alunos/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"alunos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Desativar matrícula",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/alunos/1/desativar-matricula",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"alunos",
+								"1",
+								"desativar-matricula"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ativar matrícula",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/alunos/1/ativar-matricula",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"alunos",
+								"1",
+								"ativar-matricula"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Excluir",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/alunos/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"alunos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar por nome",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/alunos/nome/r",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"alunos",
+								"nome",
+								"r"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar por email",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/alunos/email/r",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"alunos",
+								"email",
+								"r"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Materias",
+			"item": [
+				{
+					"name": "Cadastrar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Inglês\",\r\n    \"grauEnsino\": \"ENSINO MÉDIO\",\r\n    \"serieEnsino\": \"PRIMEIRO\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/materias",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"materias"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/materias",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"materias"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar por Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/materias/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"materias",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Excluir",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/materias/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"materias",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar por nome",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/materias/nome/fia",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"materias",
+								"nome",
+								"fia"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ativar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/materias/ativar/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"materias",
+								"ativar",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Desativar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/materias/desativar/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"materias",
+								"desativar",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Notas",
+			"item": [
+				{
+					"name": "Buscar",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/notas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"notas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar notas da turma",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"alunoId\" : 1,\r\n    \"turmaId\" : 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/notas/turma/1?aluno=a&materia=a&bimestre=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"notas",
+								"turma",
+								"1"
+							],
+							"query": [
+								{
+									"key": "aluno",
+									"value": "a"
+								},
+								{
+									"key": "materia",
+									"value": "a"
+								},
+								{
+									"key": "bimestre",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar nota",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"alunoId\" :  1,\r\n    \"turmaId\" : 3,\r\n    \"materiaId\" : 1,\r\n    \"valor\" : 10, \r\n    \"bimestre\" : 4\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/notas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"notas"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Professores",
+			"item": [
+				{
+					"name": "Buscar",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/professores",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"professores"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"André Eppinghaus\",\r\n    \"dataNascimento\" : \"02/02/1985\",\r\n    \"email\" : \"andree@gmail.com\",\r\n    \"rg\" : \"123456789\",\r\n    \"cpf\" : \"16976587764\",\r\n    \"telefone\" : \"21966523256\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/professores",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"professores"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"André Eppinghaus\",\r\n    \"dataNascimento\" : \"02/02/1985\",\r\n    \"email\" : \"andree@gmail.com\",\r\n    \"rg\" : \"123456789\",\r\n    \"cpf\" : \"16976520036\",\r\n    \"telefone\" : \"21966523256\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/professores/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"professores",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Excluir",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/professores/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"professores",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar por id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/professores/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"professores",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar por nome",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/professores/nome/r",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"professores",
+								"nome",
+								"r"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar por email",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/professores/email/r",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"professores",
+								"email",
+								"r"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar endereço",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cep\": \"26600000\",\r\n    \"logradouro\" : \"Rua feliciana dos anjos teixeira\",\r\n    \"numero\" : \"582\",\r\n    \"complemento\" : \"Próximo ao antigo casarão\",\r\n    \"bairro\" : \"Sabugo\",\r\n    \"cidadeId\" : 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/professores/1/endereco",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"professores",
+								"1",
+								"endereco"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Turmas",
+			"item": [
+				{
+					"name": "Buscar",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/turmas?ativo=false",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"turmas"
+							],
+							"query": [
+								{
+									"key": "ativo",
+									"value": "false"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar por id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/turmas/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"turmas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar alunos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/turmas/1/alunos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"turmas",
+								"1",
+								"alunos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Adicionar aluno na turma",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/turmas/matricular-aluno?alunoId=4&turmaId=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"turmas",
+								"matricular-aluno"
+							],
+							"query": [
+								{
+									"key": "alunoId",
+									"value": "4"
+								},
+								{
+									"key": "turmaId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\" : \"Turma 1001\",\r\n\t\"grauEnsino\" : \"ENSINO FUNDAMENTAL\",\r\n\t\"serieEnsino\" : \"PRIMEIRO\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/turmas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"turmas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ativar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/turmas/ativar/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"turmas",
+								"ativar",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mudar aluno de turma",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/turmas/mudar-aluno-de-turma?alunoId=1&turmaNovaId=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"turmas",
+								"mudar-aluno-de-turma"
+							],
+							"query": [
+								{
+									"key": "alunoId",
+									"value": "1"
+								},
+								{
+									"key": "turmaNovaId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Desativar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/turmas/desativar/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"turmas",
+								"desativar",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Grade curricular",
+			"item": [
+				{
+					"name": "Buscar grade curricular",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/turmas/1/grade-curricular",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"turmas",
+								"1",
+								"grade-curricular"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Adicionar matéria na grade curricular",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"professorId\" : 1,\r\n    \"turmaId\" : 1,\r\n    \"materiaId\" : 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/turmas/alocar-professor",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"turmas",
+								"alocar-professor"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
