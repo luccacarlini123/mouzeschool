@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.mouzetech.mouzeschoolapi.domain.model.Aluno;
+import com.mouzetech.mouzeschoolapi.domain.model.Materia;
 import com.mouzetech.mouzeschoolapi.domain.model.Nota;
 import com.mouzetech.mouzeschoolapi.domain.model.Turma;
 
@@ -19,6 +20,7 @@ public interface NotaRepository extends JpaRepository<Nota, Long> {
 	int existeNotaNoBimestre(Long alunoId, Long turmaId, Long materiaId, Short bimestre);
 	
 	List<Nota> findByAlunoAndTurma(Aluno aluno, Turma turma);
+	List<Nota> findByAlunoAndTurmaAndMateria(Aluno aluno, Turma turma, Materia materia);
 	List<Nota> findByTurma(Turma turma);
 	
 }

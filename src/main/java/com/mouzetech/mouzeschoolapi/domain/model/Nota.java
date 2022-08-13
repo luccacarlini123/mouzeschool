@@ -47,4 +47,7 @@ public class Nota {
 	@CreationTimestamp
 	private LocalDate dataCadastro;
 	
+	public String getNomeMateria() {
+		return this.getMateria().getNome();
+	}
 }

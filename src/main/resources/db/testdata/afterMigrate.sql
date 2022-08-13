@@ -58,5 +58,57 @@ insert into turma_materia_professor(turma_id, materia_id, professor_id) values(1
 insert into turma_materia_professor(turma_id, materia_id, professor_id) values(2,2,1);
 
 insert into nota(id, bimestre, valor, aluno_id, materia_id, turma_id, data_cadastro) values(1, 1, 9.6, 1, 1, 1, '2022-02-17');
-insert into nota(id, bimestre, valor, aluno_id, materia_id, turma_id, data_cadastro) values(2, 1, 8, 1, 2, 1, '2022-02-17');
-insert into nota(id, bimestre, valor, aluno_id, materia_id, turma_id, data_cadastro) values(3, 1, 10, 2, 3, 2, '2022-02-17');
+insert into nota(id, bimestre, valor, aluno_id, materia_id, turma_id, data_cadastro) values(2, 2, 9.6, 1, 1, 1, '2022-02-17');
+insert into nota(id, bimestre, valor, aluno_id, materia_id, turma_id, data_cadastro) values(3, 3, 9.6, 1, 1, 1, '2022-02-17');
+insert into nota(id, bimestre, valor, aluno_id, materia_id, turma_id, data_cadastro) values(4, 4, 9.6, 1, 1, 1, '2022-02-17');
+
+insert into nota(id, bimestre, valor, aluno_id, materia_id, turma_id, data_cadastro) values(6, 1, 8, 1, 2, 1, '2022-02-17');
+insert into nota(id, bimestre, valor, aluno_id, materia_id, turma_id, data_cadastro) values(8, 2, 10, 1, 2, 1, '2022-02-17');
+insert into nota(id, bimestre, valor, aluno_id, materia_id, turma_id, data_cadastro) values(9, 3, 9, 1, 2, 1, '2022-02-17');
+insert into nota(id, bimestre, valor, aluno_id, materia_id, turma_id, data_cadastro) values(10, 4, 7, 1, 2, 1, '2022-02-17');
+
+insert into nota(id, bimestre, valor, aluno_id, materia_id, turma_id, data_cadastro) values(7, 1, 10, 2, 3, 2, '2022-02-17');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -37,12 +37,6 @@ public class NotaResource {
 		cadastroNotaService.cadastrarNota(dto);
 	}
 	
-//	@GetMapping("/buscar-por-aluno-e-turma")
-//	public ResponseEntity<List<NotasDaTurmaModel>> buscarNotasAlunoPorTurma(@RequestBody BuscarNotasPorAlunoTurmaInput dto){
-//		return ResponseEntity.ok(notaModelMapper.toCollectionDTO(
-//				cadastroNotaService.buscarNotasAlunoPorTurma(dto.getAlunoId(), dto.getTurmaId())));
-//	}
-	
 	@GetMapping("/turma/{turmaId}")
 	@ResponseStatus(HttpStatus.OK)
 	public NotasDaTurmaModel buscarNotasPorTurma(@PathVariable Long turmaId, NotaFilter notaFilter){
