@@ -10,6 +10,8 @@ delete from turma_materia_professor;
 delete from matricula;
 delete from cidade;
 delete from estado;
+delete from foto_professor;
+delete from foto_aluno;
 
 set foreign_key_checks = 1;
 

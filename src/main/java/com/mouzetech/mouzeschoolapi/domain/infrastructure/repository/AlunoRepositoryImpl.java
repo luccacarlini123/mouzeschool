@@ -1,4 +1,4 @@
-package com.mouzetech.mouzeschoolapi.domain.infrastructure.service;
+package com.mouzetech.mouzeschoolapi.domain.infrastructure.repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
