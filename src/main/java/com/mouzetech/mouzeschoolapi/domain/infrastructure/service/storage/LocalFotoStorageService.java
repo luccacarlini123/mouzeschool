@@ -1,4 +1,4 @@
-package com.mouzetech.mouzeschoolapi.domain.infrastructure.service;
+package com.mouzetech.mouzeschoolapi.domain.infrastructure.service.storage;
 
 import java.io.IOException;
 import java.nio.file.Files;

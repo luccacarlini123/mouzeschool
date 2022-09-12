@@ -10,6 +10,7 @@ import com.mouzetech.mouzeschoolapi.api.model.input.CadastrarAlunoInput;
 import com.mouzetech.mouzeschoolapi.api.model.output.AlunoModel;
 import com.mouzetech.mouzeschoolapi.api.model.output.ResumoAlunoModel;
 import com.mouzetech.mouzeschoolapi.domain.model.Aluno;
+import com.mouzetech.mouzeschoolapi.domain.model.dto.AlunoResumoDTO;
 
 import lombok.AllArgsConstructor;
 
@@ -41,5 +42,17 @@ public class AlunoModelMapper {
 	
 	public Aluno toEntity(CadastrarAlunoInput dto) {
 		return modelMapper.map(dto, Aluno.class);
+	}
+	
+	public AlunoResumoDTO toAlunoResumoDTO(Aluno aluno) {
+		AlunoResumoDTO dto = AlunoResumoDTO.builder()
+				.nomeAluno(aluno.getNome())
+				.build();
+		return dto;
+	}
+	
+	public List<AlunoResumoDTO> toCollectionAlunoResumoDTO(List<Aluno> alunos) {
+		return alunos.stream().map(aluno -> toAlunoResumoDTO(aluno))
+				.collect(Collectors.toList());
 	}
 }

@@ -1,4 +1,4 @@
-package com.mouzetech.mouzeschoolapi.domain.infrastructure.service;
+package com.mouzetech.mouzeschoolapi.domain.infrastructure.service.storage;
 
 import java.net.URL;
 
@@ -30,7 +30,6 @@ public class S3FotoStorageService implements FotoStorageService {
 		FotoRecuperada fotoRecuperada = FotoRecuperada.builder().url(url.toString()).build();
 		
 		return fotoRecuperada;
-		
 	}
 
 	@Override

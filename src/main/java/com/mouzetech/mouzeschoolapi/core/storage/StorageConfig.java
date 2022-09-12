@@ -9,8 +9,8 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.mouzetech.mouzeschoolapi.core.storage.StorageProperties.TipoStorage;
-import com.mouzetech.mouzeschoolapi.domain.infrastructure.service.LocalFotoStorageService;
-import com.mouzetech.mouzeschoolapi.domain.infrastructure.service.S3FotoStorageService;
+import com.mouzetech.mouzeschoolapi.domain.infrastructure.service.storage.LocalFotoStorageService;
+import com.mouzetech.mouzeschoolapi.domain.infrastructure.service.storage.S3FotoStorageService;
 import com.mouzetech.mouzeschoolapi.domain.service.FotoStorageService;
 
 @Configuration
