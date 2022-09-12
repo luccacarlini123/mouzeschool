@@ -22,4 +22,7 @@ public interface AlunoRepository extends JpaRepository<Aluno, Long>, CatalogoFot
 			+ "where a.id = :alunoId")
 	Optional<FotoAluno> buscarFotoAluno(Long alunoId);
 	
+	@Query(value = "select a from Aluno a where a.matricula.status = 'ATIVADA'")
+	List<Aluno> buscarTodosAlunosComMatriculaAtiva();
+	
 }

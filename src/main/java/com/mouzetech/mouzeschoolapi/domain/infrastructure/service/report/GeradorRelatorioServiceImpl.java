@@ -6,14 +6,16 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.mouzetech.mouzeschoolapi.domain.exception.ReportException;
+import com.mouzetech.mouzeschoolapi.domain.service.GeradorRelatorioService;
 
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 @Service
-public class GeradorRelatorioService {
+public class GeradorRelatorioServiceImpl implements GeradorRelatorioService {
 
+	@Override
 	public byte[] gerar(Map<String, Object> parametros, String path, Collection<?> dados) {
 		try {		
 			var inputStream = this.getClass().getResourceAsStream(path);

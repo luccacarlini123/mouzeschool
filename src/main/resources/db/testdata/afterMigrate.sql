@@ -34,9 +34,9 @@ insert into matricula(id, data_cadastro, codigo_matricula, status) value (4, '20
 insert into matricula(id, data_cadastro, codigo_matricula, status) value (5, '2022-05-25', '202201330124', 'ATIVADA');
 insert into matricula(id, data_cadastro, codigo_matricula, status) value (6, '2022-05-25', '202201385044', 'ATIVADA');
 
-insert into aluno(id, nome, data_nascimento, email, rg, cpf, telefone, matricula_id) values(1, 'Lucca', '1998-04-06', 'lucca@gmail.com', '12365482', '16976587764', '978885443', 1);
-insert into aluno(id, nome, data_nascimento, email, rg, cpf, telefone, matricula_id) values(2, 'Pedro', '2003-04-06', 'carlo@gmail.com', '30265874', '16976123764', '978125443', 2);
-insert into aluno(id, nome, data_nascimento, email, rg, cpf, telefone, matricula_id) values(3, 'Carlo', '2004-04-10', 'pedro@gmail.com', '02366589', '16976996064', '966685443', 3);
+insert into aluno(id, nome, data_nascimento, email, rg, cpf, telefone, matricula_id) values(1, 'Lucca', '1998-04-06', 'lucca.carlini18@gmail.com', '12365482', '16976587764', '978885443', 1);
+insert into aluno(id, nome, data_nascimento, email, rg, cpf, telefone, matricula_id) values(2, 'Pedro', '2003-04-06', 'lucca.carlini1998@gmail.com', '30265874', '16976123764', '978125443', 2);
+insert into aluno(id, nome, data_nascimento, email, rg, cpf, telefone, matricula_id) values(3, 'Carlo', '2004-04-10', 'lucca.carlini1998@gmail.com', '02366589', '16976996064', '966685443', 3);
 
 insert into professor(id, nome, data_nascimento, email, rg, cpf, telefone, matricula_id) values(1, 'Junior', '1976-04-06', 'junior@gmail.com', '12365696', '16971227764', '978883743', 4);
 insert into professor(id, nome, data_nascimento, email, rg, cpf, telefone, matricula_id) values(2, 'Erick', '1965-04-06', 'erick@gmail.com', '30260000', '16976321764', '978125496', 5);

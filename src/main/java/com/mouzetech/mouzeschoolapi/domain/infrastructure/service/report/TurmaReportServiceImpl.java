@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mouzetech.mouzeschoolapi.domain.model.dto.AlunosDaTurmaDTO;
+import com.mouzetech.mouzeschoolapi.domain.service.GeradorRelatorioService;
 import com.mouzetech.mouzeschoolapi.domain.service.TurmaQueryService;
 import com.mouzetech.mouzeschoolapi.domain.service.TurmaReportService;
 
@@ -30,7 +31,6 @@ public class TurmaReportServiceImpl implements TurmaReportService {
 		parametros.put("nomeTurma", dto.getNomeTurma());
 		
 		return geradorRelatorioService.gerar(parametros, PATH_RELATORIO_ALUNOS_DA_TURMA, dto.getAlunos());
-		
 	}
 
 }
