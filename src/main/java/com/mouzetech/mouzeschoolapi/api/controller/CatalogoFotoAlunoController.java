@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,10 +33,11 @@ import com.mouzetech.mouzeschoolapi.domain.service.CatalogoFotoPessoaService;
 import com.mouzetech.mouzeschoolapi.domain.service.FotoStorageService;
 import com.mouzetech.mouzeschoolapi.domain.service.FotoStorageService.FotoRecuperada;
 import com.mouzetech.mouzeschoolapi.mapper.FotoPessoaModelAssembler;
+import com.mouzetech.mouzeschoolapi.openapi.controller.CatalogoFotoAlunoControllerOpenApi;
 
 @RestController
 @RequestMapping("/alunos/{alunoId}/foto")
-public class CatalogoFotoAlunoController {
+public class CatalogoFotoAlunoController implements CatalogoFotoAlunoControllerOpenApi{
 
 	@Autowired
 	private CatalogoFotoPessoaService catalogoFotoPessoaService;
@@ -49,11 +51,12 @@ public class CatalogoFotoAlunoController {
 	@Autowired
 	private FotoStorageService fotoStorageService;
 	
-	@PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public FotoPessoaModel atualizarFoto(@PathVariable Long alunoId, @Valid FotoPessoaInput fotoPessoaInput) throws IOException {
+	@PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public FotoPessoaModel atualizarFoto(@PathVariable Long alunoId, @Valid FotoPessoaInput fotoPessoaInput,
+			@RequestPart(required = true) MultipartFile arquivo) throws IOException {
 		Aluno aluno = cadastroAlunoService.buscarPorId(alunoId);
 		
-		MultipartFile arquivo = fotoPessoaInput.getArquivo();
+//		MultipartFile arquivo = fotoPessoaInput.getArquivo();
 		
 		FotoAluno fotoAluno = new FotoAluno();
 		fotoAluno.setAluno(aluno);
@@ -65,7 +68,7 @@ public class CatalogoFotoAlunoController {
 		return fotoPessoaModelAssembler.toModel(catalogoFotoPessoaService.salvarFotoAluno(fotoAluno, arquivo.getInputStream()));
 	}
 	
-	@GetMapping
+	@GetMapping(produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
 	public ResponseEntity<?> buscarFotoDoAluno(@PathVariable Long alunoId,
 			@RequestHeader("accept") String acceptHeaders) throws HttpMediaTypeNotAcceptableException{
 		try {

@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.mouzetech.mouzeschoolapi.validation.FileContentType;
 import com.mouzetech.mouzeschoolapi.validation.FileSize;
 
+import io.swagger.annotations.ApiParam;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,6 +16,7 @@ import lombok.Setter;
 @Setter
 public class FotoPessoaInput {
 
+	@ApiParam(hidden = true)
 	@NotNull
 	@FileSize(max = "8000KB")
 	@FileContentType(allowed = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})

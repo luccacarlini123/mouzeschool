@@ -8,7 +8,9 @@ import javax.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,13 +30,14 @@ import com.mouzetech.mouzeschoolapi.core.jackson.PageableTranslator;
 import com.mouzetech.mouzeschoolapi.domain.repository.AlunoRepository;
 import com.mouzetech.mouzeschoolapi.domain.service.CadastroAlunoService;
 import com.mouzetech.mouzeschoolapi.mapper.AlunoModelMapper;
+import com.mouzetech.mouzeschoolapi.openapi.controller.AlunoResourceOpenApi;
 
 import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/alunos")
 @AllArgsConstructor
-public class AlunoResource {
+public class AlunoResource implements AlunoResourceOpenApi {
 
 	private AlunoRepository alunoRepository;
 	
@@ -42,8 +45,8 @@ public class AlunoResource {
 	
 	private AlunoModelMapper alunoModelMapper;
 	
-	@GetMapping
-	public Page<ResumoAlunoModel> buscarAlunos(Pageable pageable){
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	public Page<ResumoAlunoModel> buscarAlunos(@PageableDefault(size = 1) Pageable pageable){
 		pageable = traduzirPageable(pageable);
 		
 		List<ResumoAlunoModel> alunos = alunoModelMapper.toCollectionResumoAlunoModel(
@@ -52,28 +55,28 @@ public class AlunoResource {
 		return new PageImpl<ResumoAlunoModel>(alunos, pageable, pageable.getPageSize());
 	}
 
-	@GetMapping("/{alunoId}")
+	@GetMapping(path = "/{alunoId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<AlunoModel> buscarPorId(@PathVariable Long alunoId){
 		return ResponseEntity.ok(
 				alunoModelMapper.toAlunoModel(
 						cadastroAlunoService.buscarPorId(alunoId)));
 	}
 	
-	@GetMapping("/email/{email}")
+	@GetMapping(value = "/email/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<AlunoModel>> buscarPorEmail(@PathVariable("email") String email){
 		return ResponseEntity.ok(
 				alunoModelMapper.toCollectionAlunoModel(
 						alunoRepository.findByEmailContaining(email)));
 	}
 	
-	@GetMapping("/nome/{nome}")
+	@GetMapping(value = "/nome/{nome}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<AlunoModel>> buscarPorNome(@PathVariable("nome") String nome){
 		return ResponseEntity.ok(
 				alunoModelMapper.toCollectionAlunoModel(
 						alunoRepository.findByNomeContaining(nome)));
 	}
 	
-	@PostMapping
+	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<AlunoModel> cadastrar(@RequestBody @Valid CadastrarAlunoInput dto){
 		return ResponseEntity.ok(
 					alunoModelMapper.toAlunoModel(
