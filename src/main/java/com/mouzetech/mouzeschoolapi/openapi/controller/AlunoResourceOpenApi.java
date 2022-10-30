@@ -10,10 +10,13 @@ import com.mouzetech.mouzeschoolapi.api.model.input.CadastrarAlunoInput;
 import com.mouzetech.mouzeschoolapi.api.model.input.EnderecoInput;
 import com.mouzetech.mouzeschoolapi.api.model.output.AlunoModel;
 import com.mouzetech.mouzeschoolapi.api.model.output.ResumoAlunoModel;
+import com.mouzetech.mouzeschoolapi.openapi.model.ProblemaNotFoundOpenApi;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @Api(tags = "Alunos")
 public interface AlunoResourceOpenApi {
@@ -21,27 +24,27 @@ public interface AlunoResourceOpenApi {
 	@ApiOperation(value = "Busca todos os alunos")
 	public Page<ResumoAlunoModel> buscarAlunos(Pageable pageable);
 
-	@ApiOperation(value = "Buscar aluno por ID")
+	@ApiOperation(value = "Busca aluno por ID")
 	public ResponseEntity<AlunoModel> buscarPorId(
 			@ApiParam(value = "ID do aluno", required = true) 
 			Long alunoId);
 	
-	@ApiOperation(value = "Buscar aluno por email")
+	@ApiOperation(value = "Busca alunos por email")
 	public ResponseEntity<List<AlunoModel>> buscarPorEmail(
 			@ApiParam(value = "Email do aluno", required = true)  
 			String email);
 	
-	@ApiOperation(value = "Buscar aluno por nome")
+	@ApiOperation(value = "Busca alunos por nome")
 	public ResponseEntity<List<AlunoModel>> buscarPorNome(
 			@ApiParam(value = "Nome do aluno", required = true) 
 			String nome);
 	
-	@ApiOperation(value = "Salvar aluno")
+	@ApiOperation(value = "Salva um aluno")
 	public ResponseEntity<AlunoModel> cadastrar(
 			@ApiParam(value = "Representação de um aluno a ser salvo", name = "corpo")
 			CadastrarAlunoInput dto);
 	
-	@ApiOperation(value = "Cadastrar endereço para aluno")
+	@ApiOperation(value = "Cadastra endereço para aluno")
 	public void cadastrarEndereco(
 			@ApiParam(value = "Representação de um endereço a ser salvo") 
 			EnderecoInput enderecoInput, 
@@ -49,7 +52,7 @@ public interface AlunoResourceOpenApi {
 			@ApiParam(value = "ID do aluno", required = true)
 			Long alunoId);
 	
-	@ApiOperation(value = "Atualizar aluno")
+	@ApiOperation(value = "Atualiza um aluno")
 	public void atualizar(
 			@ApiParam(value = "Representação de um aluno a ser atualizado", name = "corpo")
 			CadastrarAlunoInput dto, 
@@ -57,19 +60,21 @@ public interface AlunoResourceOpenApi {
 			@ApiParam(value = "ID do aluno", required = true)
 			Long alunoId);
 	
-	@ApiOperation(value = "Ativar matrícula")
+	@ApiOperation(value = "Ativa matrícula")
+	@ApiResponses({
+		@ApiResponse(code = 404, message = "Recurso não encontrado", response = ProblemaNotFoundOpenApi.class)
+	})
 	public void ativarMatricula(
 			@ApiParam(value = "ID do aluno", required = true) 
 			Long alunoId);
 	
-	@ApiOperation(value = "Desativar matrícula")
+	@ApiOperation(value = "Desativa matrícula")
 	public void desativarMatricula(
 			@ApiParam(value = "ID do aluno", required = true)
 			Long alunoId);
 	
-	@ApiOperation(value = "Excluir matrícula")
+	@ApiOperation(value = "Exclui aluno")
 	public void excluir(
 			@ApiParam(value = "ID do aluno", required = true) 
 			Long alunoId);
-	
 }

@@ -88,6 +88,9 @@ public class CadastroNotaService {
 		}
 		
 		if(notaFilter.getBimestre() != null ) {
+			if(notaFilter.getBimestre() < 1 ||  notaFilter.getBimestre() > 4) {
+				throw new NegocioException("Só é permitido valores entre 1 e 4 para bimestre");
+			}
 			predicates.add(builder.equal(root.get("bimestre"), notaFilter.getBimestre()));
 		}
 		

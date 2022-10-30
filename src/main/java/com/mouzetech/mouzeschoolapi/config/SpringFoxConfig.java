@@ -59,7 +59,14 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 				.directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
 				.alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(Page.class, ResumoAlunoModel.class), PagedResumoAlunoModel.class))
 			.apiInfo(apiInfo())
-			.tags(new Tag("Alunos", "Gerencia os alunos"));
+			.tags(new Tag("Alunos", "Gerencia os alunos"))
+			.tags(new Tag("Professores", "Gerencia os professores"))
+			.tags(new Tag("Email", "Envio de email"))
+			.tags(new Tag("Notas", "Gerencia as notas dos alunos"))
+			.tags(new Tag("Matérias", "Gerencia as matérias"))
+			.tags(new Tag("Médias", "Gerencia média das notas dos alunos"))
+			.tags(new Tag("Relatórios", "Gera relatórios"))
+			.tags(new Tag("Turmas", "Gerencia as turmas"));
 	}
 	
 	private List<Response> globalGetResponseMessages(){
@@ -147,7 +154,7 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 						.code(String.valueOf(HttpStatus.NOT_FOUND.value()))
 						.description("Recurso inexistente")
 						.representation(MediaType.APPLICATION_JSON)
-						.apply(getProblemaModelReference())
+						.apply(getProblemaNotFoundModelReference())
 						.build()
 				);
 	}
@@ -172,7 +179,7 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 						.code(String.valueOf(HttpStatus.NOT_FOUND.value()))
 						.description("Recurso inexistente")
 						.representation(MediaType.APPLICATION_JSON)
-						.apply(getProblemaModelReference())
+						.apply(getProblemaNotFoundModelReference())
 						.build()
 				);
 	}

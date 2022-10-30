@@ -21,7 +21,7 @@ public class ProblemaNotFoundOpenApi {
 	@ApiModelProperty(example = "Entidade não encontrada", position = 10)
 	private String title;
 	
-	@ApiModelProperty(example = "Não existe nenhum Restaurante com o id 102", position = 15)
+	@ApiModelProperty(example = "Não existe nenhum Aluno com o id 102", position = 15)
 	private String detail;
 	
 	@ApiModelProperty(example = "2022-10-25T21:56:00.7067691Z", position = 25)

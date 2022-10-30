@@ -32,13 +32,14 @@ import com.mouzetech.mouzeschoolapi.domain.service.CadastroTurmaService;
 import com.mouzetech.mouzeschoolapi.domain.service.MudarAlunoDeTurmaService;
 import com.mouzetech.mouzeschoolapi.mapper.AlunoModelMapper;
 import com.mouzetech.mouzeschoolapi.mapper.TurmaModelMapper;
+import com.mouzetech.mouzeschoolapi.openapi.controller.TurmaResourceOpenApi;
 
 import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/turmas")
 @AllArgsConstructor
-public class TurmaResource {
+public class TurmaResource implements TurmaResourceOpenApi {
 
 	private TurmaRepository turmaRepository;
 	
@@ -106,7 +107,7 @@ public class TurmaResource {
 	
 	@PostMapping("/matricular-aluno")
 	@ResponseStatus(HttpStatus.OK)
-	public void matricularAlunoEmTurma(@RequestParam(required = true) Long alunoId, @RequestParam(required = true) @PathVariable Long turmaId){
+	public void matricularAlunoEmTurma(@RequestParam(required = true) Long alunoId, @RequestParam(required = true) Long turmaId){
 		cadastroAlunoTurmaService.matricularAlunoNaTurma(alunoId, turmaId);
 	}
 	
@@ -126,7 +127,5 @@ public class TurmaResource {
 	@ResponseStatus(HttpStatus.OK)
 	public void mudarAlunoDeTurma(@RequestParam(required =  true) Long alunoId, @RequestParam(required =  true) Long turmaNovaId){
 		mudarAlunoDeTurmaService.mudarAlunoDeTurma(alunoId, turmaNovaId);
-	}
-	
-	
+	}	
 }

@@ -9,17 +9,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mouzetech.mouzeschoolapi.domain.service.TurmaReportService;
+import com.mouzetech.mouzeschoolapi.openapi.controller.RelatoriosResourceOpenApi;
 
 import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/relatorios")
 @AllArgsConstructor
-public class RelatoriosResource {
+public class RelatoriosResource implements RelatoriosResourceOpenApi {
 
 	private TurmaReportService turmaReportService;
 	
-	@GetMapping("/turmas/{turmaId}/alunos")
+	@GetMapping(value = "/turmas/{turmaId}/alunos", produces = MediaType.APPLICATION_PDF_VALUE)
 	public ResponseEntity<byte[]> relatorioAlunosDaTurma(@PathVariable Long turmaId) {
 		byte[] bytesPdf = turmaReportService.emitirRelatorioAlunosDaTurma(turmaId);
 		

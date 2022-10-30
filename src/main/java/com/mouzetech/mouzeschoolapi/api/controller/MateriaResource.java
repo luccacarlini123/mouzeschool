@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,19 +23,20 @@ import com.mouzetech.mouzeschoolapi.domain.model.Materia;
 import com.mouzetech.mouzeschoolapi.domain.repository.MateriaRepository;
 import com.mouzetech.mouzeschoolapi.domain.service.CadastroMateriaService;
 import com.mouzetech.mouzeschoolapi.mapper.MateriaModelMapper;
+import com.mouzetech.mouzeschoolapi.openapi.controller.MateriaResourceOpenApi;
 
 import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/materias")
 @AllArgsConstructor
-public class MateriaResource {
+public class MateriaResource implements MateriaResourceOpenApi {
 
 	private MateriaRepository materiaRepository;
 	private CadastroMateriaService cadastroMateriaService;
 	private MateriaModelMapper materiaModelMapper;
 	
-	@GetMapping
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(code = HttpStatus.OK)
 	public List<ResumoMateriaModel> buscarTodas() {
 		return materiaModelMapper.toCollectionResumoModel(materiaRepository.findAll());
@@ -42,18 +44,18 @@ public class MateriaResource {
 	
 	
 	@ResponseStatus(code = HttpStatus.OK)
-	@GetMapping("/{materiaId}")
+	@GetMapping(path = "/{materiaId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public MateriaModel buscarPorId(@PathVariable Long materiaId) {
 		return materiaModelMapper.toModel(cadastroMateriaService.buscarPorId(materiaId));
 	}
 	
-	@GetMapping("/nome/{nome}")
+	@GetMapping(value = "/nome/{nome}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<MateriaModel> buscarPorNomeContaining(@PathVariable String nome) {
 		List<Materia> materias = cadastroMateriaService.buscarPorNomeContaining(nome);
 		return materiaModelMapper.toCollectionModel(materias);
 	}
 	
-	@PostMapping
+	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(code = HttpStatus.OK)
 	public MateriaModel cadastrar(@RequestBody @Valid CadastrarMateriaInput dto) {
 		return materiaModelMapper.toModel(cadastroMateriaService.cadastrar(dto));

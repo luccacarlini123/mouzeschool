@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,43 +24,44 @@ import com.mouzetech.mouzeschoolapi.api.model.output.ResumoProfessorModel;
 import com.mouzetech.mouzeschoolapi.domain.repository.ProfessorRepository;
 import com.mouzetech.mouzeschoolapi.domain.service.CadastroProfessorService;
 import com.mouzetech.mouzeschoolapi.mapper.ProfessorModelMapper;
+import com.mouzetech.mouzeschoolapi.openapi.controller.ProfessorResourceOpenApi;
 
 import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/professores")
 @AllArgsConstructor
-public class ProfessorResource {
+public class ProfessorResource implements ProfessorResourceOpenApi {
 
 	private ProfessorRepository professorRepository;
 	private ProfessorModelMapper professorModelMapper;
 	private CadastroProfessorService cadastroProfessorService;
 	
-	@GetMapping
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<ResumoProfessorModel> buscarProfessores(){
 		return professorModelMapper.toCollectionResumoProfessorDTO(professorRepository.buscarProfessoresComDadosResumidos());
 	}
 	
-	@GetMapping("/{professorId}")
+	@GetMapping(value = "/{professorId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ProfessorModel> buscarPorId(@PathVariable Long professorId) {
 		return ResponseEntity.ok(professorModelMapper.toProfessorDTO(cadastroProfessorService.buscarPorId(professorId)));
 	}
 	
-	@GetMapping("/email/{email}")
+	@GetMapping(value = "/email/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ProfessorModel>> buscarPorEmail(@PathVariable("email") String email){
 		return ResponseEntity.ok(
 				professorModelMapper.toCollectionProfessorDTO(
 						professorRepository.findByEmailContaining(email)));
 	}
 	
-	@GetMapping("/nome/{nome}")
+	@GetMapping(value = "/nome/{nome}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ProfessorModel>> buscarPorNome(@PathVariable("nome") String nome){
 		return ResponseEntity.ok(
 				professorModelMapper.toCollectionProfessorDTO(
 						professorRepository.findByNomeContaining(nome)));
 	}
 	
-	@PostMapping
+	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ProfessorModel> cadastrar(@RequestBody @Valid CadastrarProfessorInput dto) {
 		return ResponseEntity.ok(
 				professorModelMapper.toProfessorDTO(

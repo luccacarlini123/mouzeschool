@@ -73,6 +73,10 @@ public class CadastroProfessorService {
 			throw new NegocioException("Email já cadastrado");
 		}
 		
+		if(professorRepository.existsByCpf(dto.getCpf()) && !(professor.getCpf().equals(dto.getCpf()))) {
+			throw new NegocioException("CPF já cadastrado");
+		}
+		
 		professor = professorModelMapper.toEntity(dto);
 		professor.setId(professorId);
 		professor.setMatricula(matricula);

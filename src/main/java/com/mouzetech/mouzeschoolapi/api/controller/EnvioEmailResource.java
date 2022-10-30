@@ -16,10 +16,11 @@ import com.mouzetech.mouzeschoolapi.domain.model.Aluno;
 import com.mouzetech.mouzeschoolapi.domain.repository.AlunoRepository;
 import com.mouzetech.mouzeschoolapi.domain.service.EnvioEmailService;
 import com.mouzetech.mouzeschoolapi.domain.service.EnvioEmailService.Mensagem;
+import com.mouzetech.mouzeschoolapi.openapi.controller.EnvioEmailResourceOpenApi;
 
 @RestController
 @RequestMapping("/envio-email")
-public class EnvioEmailResource {
+public class EnvioEmailResource implements EnvioEmailResourceOpenApi {
 
 	@Autowired
 	private AlunoRepository alunoRepository;
