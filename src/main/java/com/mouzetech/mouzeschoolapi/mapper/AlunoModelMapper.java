@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 
 import com.mouzetech.mouzeschoolapi.api.model.input.CadastrarAlunoInput;
 import com.mouzetech.mouzeschoolapi.api.model.output.AlunoModel;
+import com.mouzetech.mouzeschoolapi.api.model.output.AlunoResumoModel;
 import com.mouzetech.mouzeschoolapi.api.model.output.ResumoAlunoModel;
 import com.mouzetech.mouzeschoolapi.domain.model.Aluno;
-import com.mouzetech.mouzeschoolapi.domain.model.dto.AlunoResumoDTO;
 
 import lombok.AllArgsConstructor;
 
@@ -44,14 +44,14 @@ public class AlunoModelMapper {
 		return modelMapper.map(dto, Aluno.class);
 	}
 	
-	public AlunoResumoDTO toAlunoResumoDTO(Aluno aluno) {
-		AlunoResumoDTO dto = AlunoResumoDTO.builder()
+	public AlunoResumoModel toAlunoResumoDTO(Aluno aluno) {
+		AlunoResumoModel dto = AlunoResumoModel.builder()
 				.nomeAluno(aluno.getNome())
 				.build();
 		return dto;
 	}
 	
-	public List<AlunoResumoDTO> toCollectionAlunoResumoDTO(List<Aluno> alunos) {
+	public List<AlunoResumoModel> toCollectionAlunoResumoDTO(List<Aluno> alunos) {
 		return alunos.stream().map(aluno -> toAlunoResumoDTO(aluno))
 				.collect(Collectors.toList());
 	}

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import com.mouzetech.mouzeschoolapi.api.model.input.CadastrarAlunoInput;
 import com.mouzetech.mouzeschoolapi.api.model.input.EnderecoInput;
 import com.mouzetech.mouzeschoolapi.api.model.output.AlunoModel;
+import com.mouzetech.mouzeschoolapi.api.model.output.EnderecoModel;
 import com.mouzetech.mouzeschoolapi.api.model.output.ResumoAlunoModel;
 import com.mouzetech.mouzeschoolapi.openapi.model.ProblemaNotFoundOpenApi;
 
@@ -76,5 +77,14 @@ public interface AlunoResourceOpenApi {
 	@ApiOperation(value = "Exclui aluno")
 	public void excluir(
 			@ApiParam(value = "ID do aluno", required = true) 
+			Long alunoId);
+	
+	@ApiOperation(value = "Busca endereço")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "Endereço encontrado com sucesso", response = EnderecoModel.class),
+		@ApiResponse(code = 204, message = "Aluno encontrado, porém não contém endereço")
+	})
+	public ResponseEntity<?> buscarEndereco(
+			@ApiParam(value = "ID do aluno", required = true)
 			Long alunoId);
 }

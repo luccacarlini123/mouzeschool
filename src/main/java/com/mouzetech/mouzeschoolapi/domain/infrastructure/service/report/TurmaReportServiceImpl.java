@@ -6,7 +6,7 @@ import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.mouzetech.mouzeschoolapi.domain.model.dto.AlunosDaTurmaDTO;
+import com.mouzetech.mouzeschoolapi.api.model.output.AlunosDaTurmaModel;
 import com.mouzetech.mouzeschoolapi.domain.service.GeradorRelatorioService;
 import com.mouzetech.mouzeschoolapi.domain.service.TurmaQueryService;
 import com.mouzetech.mouzeschoolapi.domain.service.TurmaReportService;
@@ -24,7 +24,7 @@ public class TurmaReportServiceImpl implements TurmaReportService {
 	
 	@Override
 	public byte[] emitirRelatorioAlunosDaTurma(Long turmaId) {
-		AlunosDaTurmaDTO dto = turmaQueryService.buscarAlunosDaTurma(turmaId);
+		AlunosDaTurmaModel dto = turmaQueryService.buscarAlunosDaTurma(turmaId);
 		
 		var parametros = new HashMap<String, Object>();
 		parametros.put("REPORT_LOCALE", new Locale("pt", "BR"));

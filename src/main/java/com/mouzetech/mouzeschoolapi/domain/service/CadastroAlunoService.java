@@ -1,6 +1,7 @@
 package com.mouzetech.mouzeschoolapi.domain.service;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -100,6 +101,11 @@ public class CadastroAlunoService {
 		Cidade cidade = cadastroCidadeService.buscarPorId(input.getCidadeId());
 		endereco.setCidade(cidade);
 		aluno.setEndereco(endereco);
+	}
+	
+	public Optional<Endereco> buscarEndereco(Long alunoId) {
+		Aluno aluno = buscarPorId(alunoId);
+		return Optional.ofNullable(aluno.getEndereco());
 	}
 	
 	@Transactional

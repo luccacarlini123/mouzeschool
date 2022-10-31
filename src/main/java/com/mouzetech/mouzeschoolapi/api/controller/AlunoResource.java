@@ -30,6 +30,7 @@ import com.mouzetech.mouzeschoolapi.core.jackson.PageableTranslator;
 import com.mouzetech.mouzeschoolapi.domain.repository.AlunoRepository;
 import com.mouzetech.mouzeschoolapi.domain.service.CadastroAlunoService;
 import com.mouzetech.mouzeschoolapi.mapper.AlunoModelMapper;
+import com.mouzetech.mouzeschoolapi.mapper.EnderecoModelMapper;
 import com.mouzetech.mouzeschoolapi.openapi.controller.AlunoResourceOpenApi;
 
 import lombok.AllArgsConstructor;
@@ -44,6 +45,8 @@ public class AlunoResource implements AlunoResourceOpenApi {
 	private CadastroAlunoService cadastroAlunoService;
 	
 	private AlunoModelMapper alunoModelMapper;
+	
+	private EnderecoModelMapper enderecoModelMapper;
 	
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public Page<ResumoAlunoModel> buscarAlunos(@PageableDefault(size = 1) Pageable pageable){
@@ -88,6 +91,14 @@ public class AlunoResource implements AlunoResourceOpenApi {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void cadastrarEndereco(@RequestBody @Valid EnderecoInput enderecoInput, @PathVariable Long alunoId) {
 		cadastroAlunoService.cadastrarEndereco(enderecoInput, alunoId);
+	}
+	
+	@GetMapping(value = "/{alunoId}/endereco", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public ResponseEntity<?> buscarEndereco(@PathVariable Long alunoId) {
+		return cadastroAlunoService.buscarEndereco(alunoId).isPresent() 
+				? ResponseEntity.ok(enderecoModelMapper.toEnderecoModel(cadastroAlunoService.buscarEndereco(alunoId).get()))
+				: ResponseEntity.noContent().build();
 	}
 	
 	@ResponseStatus(HttpStatus.NO_CONTENT)

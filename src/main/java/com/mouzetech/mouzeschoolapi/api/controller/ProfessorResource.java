@@ -23,6 +23,7 @@ import com.mouzetech.mouzeschoolapi.api.model.output.ProfessorModel;
 import com.mouzetech.mouzeschoolapi.api.model.output.ResumoProfessorModel;
 import com.mouzetech.mouzeschoolapi.domain.repository.ProfessorRepository;
 import com.mouzetech.mouzeschoolapi.domain.service.CadastroProfessorService;
+import com.mouzetech.mouzeschoolapi.mapper.EnderecoModelMapper;
 import com.mouzetech.mouzeschoolapi.mapper.ProfessorModelMapper;
 import com.mouzetech.mouzeschoolapi.openapi.controller.ProfessorResourceOpenApi;
 
@@ -36,6 +37,7 @@ public class ProfessorResource implements ProfessorResourceOpenApi {
 	private ProfessorRepository professorRepository;
 	private ProfessorModelMapper professorModelMapper;
 	private CadastroProfessorService cadastroProfessorService;
+	private EnderecoModelMapper enderecoModelMapper;
 	
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<ResumoProfessorModel> buscarProfessores(){
@@ -73,6 +75,14 @@ public class ProfessorResource implements ProfessorResourceOpenApi {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void cadastrarEndereco(@RequestBody @Valid EnderecoInput enderecoInput, @PathVariable Long professorId) {
 		cadastroProfessorService.cadastrarEndereco(enderecoInput, professorId);
+	}
+	
+	@GetMapping(value = "/{professorId}/endereco", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public ResponseEntity<?> buscarEndereco(@PathVariable Long professorId) {
+		return cadastroProfessorService.buscarEndereco(professorId).isPresent() 
+				? ResponseEntity.ok(enderecoModelMapper.toEnderecoModel(cadastroProfessorService.buscarEndereco(professorId).get()))
+				: ResponseEntity.noContent().build();
 	}
 	
 	@PutMapping("/{professorId}") 

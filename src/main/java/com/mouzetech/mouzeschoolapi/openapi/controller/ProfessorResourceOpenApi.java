@@ -6,12 +6,15 @@ import org.springframework.http.ResponseEntity;
 
 import com.mouzetech.mouzeschoolapi.api.model.input.CadastrarProfessorInput;
 import com.mouzetech.mouzeschoolapi.api.model.input.EnderecoInput;
+import com.mouzetech.mouzeschoolapi.api.model.output.EnderecoModel;
 import com.mouzetech.mouzeschoolapi.api.model.output.ProfessorModel;
 import com.mouzetech.mouzeschoolapi.api.model.output.ResumoProfessorModel;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @Api(tags = "Professores")
 public interface ProfessorResourceOpenApi {
@@ -45,6 +48,15 @@ public interface ProfessorResourceOpenApi {
 			
 			@ApiParam(value = "ID do aluno", required = true)
 			Long professorId);
+	
+	@ApiOperation(value = "Busca endereço")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "Endereço encontrado com sucesso", response = EnderecoModel.class),
+		@ApiResponse(code = 204, message = "Professor encontrado, porém não contém endereço")
+	})
+	public ResponseEntity<?> buscarEndereco(
+			@ApiParam(value = "ID do professor", required = true)
+			Long alunoId);
 	
 	@ApiOperation(value = "Atualiza um professor")
 	public void atualizar(

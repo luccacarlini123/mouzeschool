@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mouzetech.mouzeschoolapi.api.model.input.EnderecoInput;
+import com.mouzetech.mouzeschoolapi.api.model.output.EnderecoModel;
 import com.mouzetech.mouzeschoolapi.domain.model.Endereco;
 
 @Service
@@ -17,4 +18,7 @@ public class EnderecoModelMapper {
 		return modelMapper.map(endereco, Endereco.class);
 	}
 	
+	public EnderecoModel toEnderecoModel(Endereco endereco) {
+		return modelMapper.map(endereco, EnderecoModel.class);
+	}	
 }

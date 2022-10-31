@@ -1,9 +1,9 @@
 package com.mouzetech.mouzeschoolapi.domain.service;
 
-import com.mouzetech.mouzeschoolapi.domain.model.dto.AlunosDaTurmaDTO;
+import com.mouzetech.mouzeschoolapi.api.model.output.AlunosDaTurmaModel;
 
 public interface TurmaQueryService {
 
-	AlunosDaTurmaDTO buscarAlunosDaTurma(Long turmaId);
+	AlunosDaTurmaModel buscarAlunosDaTurma(Long turmaId);
 	
 }
