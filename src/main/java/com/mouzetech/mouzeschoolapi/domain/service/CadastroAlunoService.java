@@ -83,6 +83,9 @@ public class CadastroAlunoService {
 	public void excluir(Long alunoId) {
 		try {
 			Aluno aluno = buscarPorId(alunoId);
+			if(aluno.matriculaAtivada()) {
+				throw new NegocioException("Não é possível excluir um aluno que esteja com a matrícula ATIVADA.");
+			}
 			alunoRepository.delete(aluno);
 			alunoRepository.flush();
 		}catch(DataIntegrityViolationException ex) {

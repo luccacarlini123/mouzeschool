@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.mouzetech.mouzeschoolapi.domain.model.enumeration.StatusGeral;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -19,4 +21,12 @@ public class Aluno extends Pessoa {
 	
 	@Embedded
 	private Endereco endereco;
+	
+	public boolean matriculaAtivada() {
+		return this.matricula.getStatus().equals(StatusGeral.ATIVADA);
+	}
+	
+	public boolean matriculaDesativada() {
+		return !matriculaAtivada();
+	}
 }

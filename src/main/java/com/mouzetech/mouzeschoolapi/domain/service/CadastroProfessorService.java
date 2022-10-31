@@ -88,6 +88,9 @@ public class CadastroProfessorService {
 	public void excluir(Long professororId) {
 		try {
 			Professor professor = buscarPorId(professororId);
+			if(professor.matriculaAtivada()) {
+				throw new NegocioException("Não é possível excluir um professor que esteja com a matrícula ATIVADA.");
+			}
 			professorRepository.delete(professor);
 			professorRepository.flush();
 		}catch(DataIntegrityViolationException ex) {

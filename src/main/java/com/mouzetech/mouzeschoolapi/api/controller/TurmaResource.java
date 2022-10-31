@@ -123,7 +123,7 @@ public class TurmaResource implements TurmaResourceOpenApi {
 		cadastroTurmaService.desativar(turmaId);
 	}
 	
-	@PostMapping("/mudar-aluno-de-turma")
+	@PutMapping("/mudar-aluno-de-turma")
 	@ResponseStatus(HttpStatus.OK)
 	public void mudarAlunoDeTurma(@RequestParam(required =  true) Long alunoId, @RequestParam(required =  true) Long turmaNovaId){
 		mudarAlunoDeTurmaService.mudarAlunoDeTurma(alunoId, turmaNovaId);
