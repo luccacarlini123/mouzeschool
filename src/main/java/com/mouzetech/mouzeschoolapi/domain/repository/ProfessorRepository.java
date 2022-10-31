@@ -25,5 +25,8 @@ public interface ProfessorRepository extends JpaRepository<Professor, Long>, Cat
 			+ "join fp.professor p "
 			+ "where p.id = :professorId")
 	Optional<FotoProfessor> buscarFotoDoProfessor(Long professorId);
+	
+	@Query(value = "select p from Professor p where p.matricula.status = 'ATIVADA'")
+	List<Professor> buscarTodosProfessoresComMatriculaAtiva();
 
 }
