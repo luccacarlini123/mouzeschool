@@ -1,5 +1,7 @@
 package com.mouzetech.mouzeschoolapi.api.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,9 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mouzetech.mouzeschoolapi.api.model.filter.NotaFilter;
 import com.mouzetech.mouzeschoolapi.api.model.input.CadastrarNotaInput;
+import com.mouzetech.mouzeschoolapi.api.model.output.NotaModel;
 import com.mouzetech.mouzeschoolapi.api.model.output.NotasDaTurmaModel;
 import com.mouzetech.mouzeschoolapi.domain.repository.NotaRepository;
 import com.mouzetech.mouzeschoolapi.domain.service.CadastroNotaService;
+import com.mouzetech.mouzeschoolapi.mapper.NotaModelMapper;
 import com.mouzetech.mouzeschoolapi.openapi.controller.NotaResourceOpenApi;
 
 import lombok.AllArgsConstructor;
@@ -27,10 +31,11 @@ public class NotaResource implements NotaResourceOpenApi {
 
 	private NotaRepository notaRepository;
 	private CadastroNotaService cadastroNotaService;
+	private NotaModelMapper notaModelMapper;
 	
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> buscarNotas(){
-		return ResponseEntity.ok(notaRepository.findAll());
+	public ResponseEntity<List<NotaModel>> buscarNotas(){
+		return ResponseEntity.ok(notaModelMapper.toCollectionNotaModel(notaRepository.findAll()));
 	}
 	
 	@PostMapping

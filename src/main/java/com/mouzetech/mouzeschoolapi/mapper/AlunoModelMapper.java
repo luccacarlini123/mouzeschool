@@ -45,9 +45,8 @@ public class AlunoModelMapper {
 	}
 	
 	public AlunoResumoModel toAlunoResumoDTO(Aluno aluno) {
-		AlunoResumoModel dto = AlunoResumoModel.builder()
-				.nomeAluno(aluno.getNome())
-				.build();
+		AlunoResumoModel dto = new AlunoResumoModel();
+		dto.setNome(aluno.getNome());
 		return dto;
 	}
 	

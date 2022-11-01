@@ -6,7 +6,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AlunoResumoModel {
-	@ApiModelProperty(example = "Lucca")
+public class MateriaResumoModel {
+	
+	@ApiModelProperty(example = "1")
+	private Long id;
+	
+	@ApiModelProperty(example = "Geografia")
 	private String nome;
-}	
+}

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -93,10 +94,10 @@ public class TurmaResource implements TurmaResourceOpenApi {
 		return alunoModelMapper.toCollectionResumoAlunoModel(turma.getAlunos());
 	}
 	
-	@PostMapping
+	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.OK)
-	public ResponseEntity<?> cadastrar(@RequestBody @Valid CadastrarTurmaInput dto){
-		return ResponseEntity.ok(cadastroTurmaService.cadastrar(dto));
+	public ResponseEntity<TurmaModel> cadastrar(@RequestBody @Valid CadastrarTurmaInput dto){
+		return ResponseEntity.ok(turmaModelMapper.toModel(cadastroTurmaService.cadastrar(dto)));
 	}
 	
 	@PostMapping("/alocar-professor")

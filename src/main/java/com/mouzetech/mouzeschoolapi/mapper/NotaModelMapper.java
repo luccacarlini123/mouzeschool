@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import com.mouzetech.mouzeschoolapi.api.model.output.NotaModel;
 import com.mouzetech.mouzeschoolapi.api.model.output.NotasDaTurmaModel;
 import com.mouzetech.mouzeschoolapi.api.model.output.RelacaoNotasDaTurmaModel;
 import com.mouzetech.mouzeschoolapi.domain.model.Nota;
@@ -19,13 +20,23 @@ public class NotaModelMapper {
 
 	private ModelMapper modelMapper;
 	
-	public NotasDaTurmaModel toNotaDTO(Nota nota) {
+	public NotasDaTurmaModel toNotasDaTurmaModel(Nota nota) {
 		return modelMapper.map(nota, NotasDaTurmaModel.class);
+	}
+	
+	public NotaModel toNotaModel(Nota nota) {
+		return modelMapper.map(nota, NotaModel.class);
+	}
+	
+	public List<NotaModel> toCollectionNotaModel(List<Nota> notas){
+		return notas.stream()
+					.map(nota -> toNotaModel(nota))
+					.collect(Collectors.toList());
 	}
 	
 	public List<NotasDaTurmaModel> toCollectionDTO(List<Nota> notas){
 		return notas.stream()
-					.map(nota -> toNotaDTO(nota))
+					.map(nota -> toNotasDaTurmaModel(nota))
 					.collect(Collectors.toList());
 	}
 	

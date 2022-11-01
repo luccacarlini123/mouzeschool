@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.mouzetech.mouzeschoolapi.api.model.input.CadastrarMateriaInput;
 import com.mouzetech.mouzeschoolapi.api.model.output.MateriaModel;
+import com.mouzetech.mouzeschoolapi.api.model.output.MateriaResumoModel;
 import com.mouzetech.mouzeschoolapi.api.model.output.ResumoMateriaModel;
 import com.mouzetech.mouzeschoolapi.domain.model.Materia;
 
@@ -25,6 +26,10 @@ public class MateriaModelMapper {
 	
 	public MateriaModel toModel(Materia materia) {
 		return modelMapper.map(materia, MateriaModel.class);
+	}
+	
+	public MateriaResumoModel toMateriaResumoModel(Materia materia) {
+		return modelMapper.map(materia, MateriaResumoModel.class);
 	}
 	
 	public List<MateriaModel> toCollectionModel(List<Materia> materias) {
