@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -33,19 +34,20 @@ import com.mouzetech.mouzeschoolapi.mapper.AlunoModelMapper;
 import com.mouzetech.mouzeschoolapi.mapper.EnderecoModelMapper;
 import com.mouzetech.mouzeschoolapi.openapi.controller.AlunoResourceOpenApi;
 
-import lombok.AllArgsConstructor;
-
 @RestController
 @RequestMapping("/alunos")
-@AllArgsConstructor
 public class AlunoResource implements AlunoResourceOpenApi {
 
+	@Autowired
 	private AlunoRepository alunoRepository;
 	
+	@Autowired
 	private CadastroAlunoService cadastroAlunoService;
 	
+	@Autowired
 	private AlunoModelMapper alunoModelMapper;
 	
+	@Autowired
 	private EnderecoModelMapper enderecoModelMapper;
 	
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)

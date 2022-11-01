@@ -1,10 +1,10 @@
 package com.mouzetech.mouzeschoolapi.api.model.output;
 
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
+import com.mouzetech.mouzeschoolapi.domain.model.enumeration.GrauEnsino;
+import com.mouzetech.mouzeschoolapi.domain.model.enumeration.SerieEnsino;
 
-@Getter@Setter
+import io.swagger.annotations.ApiModelProperty;
+
 public class ResumoMateriaModel {
 	
 	@ApiModelProperty(example = "1")
@@ -13,12 +13,52 @@ public class ResumoMateriaModel {
 	@ApiModelProperty(example = "Matemática")
 	private String nome;
 	
-	@ApiModelProperty(example = "ENSINO_MEDIO")
+	@ApiModelProperty(example = "ENSINO MÉDIO")
 	private String grauEnsino;
 	
-	@ApiModelProperty(example = "TERCEIRO_ANO")
+	@ApiModelProperty(example = "TERCEIRO ANO")
 	private String serieEnsino;
 	
 	@ApiModelProperty(example = "ATIVADA")
-	private String statusMateria;
+	private String status;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getGrauEnsino() {
+		return GrauEnsino.getDescricaoByEnum(GrauEnsino.valueOf(this.grauEnsino));
+	}
+
+	public void setGrauEnsino(String grauEnsino) {
+		this.grauEnsino = grauEnsino;
+	}
+
+	public String getSerieEnsino() {
+		return SerieEnsino.getDescricaoByEnum(SerieEnsino.valueOf(this.serieEnsino));
+	}
+
+	public void setSerieEnsino(String serieEnsino) {
+		this.serieEnsino = serieEnsino;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 }

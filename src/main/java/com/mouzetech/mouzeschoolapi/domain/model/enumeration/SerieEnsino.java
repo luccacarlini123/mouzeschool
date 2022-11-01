@@ -34,6 +34,16 @@ public enum SerieEnsino {
 		return null;
 	}
 	
+	public static String getDescricaoByEnum(SerieEnsino serieEnsino) {
+		String descricao = "";
+		for(SerieEnsino serie : SerieEnsino.values()) {
+			if(serie.equals(serieEnsino)) {
+				descricao = serie.getDescricao();
+			}
+		}
+		return descricao;
+	}
+	
 	public static SerieEnsino toEnum(String descricao) {
 		if(descricao == null) {
 			return null;

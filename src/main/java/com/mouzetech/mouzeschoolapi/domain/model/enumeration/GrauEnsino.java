@@ -28,6 +28,16 @@ public enum GrauEnsino {
 		return null;
 	}
 	
+	public static String getDescricaoByEnum(GrauEnsino grauEnsino) {
+		String descricao = "";
+		for(GrauEnsino grau : GrauEnsino.values()) {
+			if(grau.equals(grauEnsino)) {
+				descricao = grau.getDescricao();
+			}
+		}
+		return descricao;
+	}
+	
 	public static GrauEnsino toEnum(String descricao) {
 		if(descricao == null) {
 			return null;
