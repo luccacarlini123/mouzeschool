@@ -6,14 +6,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class EstadoModel {
-	
+public class ResumoEstadoModel {
+
 	@ApiModelProperty(example = "1")
 	private Long id;
 	
-	@ApiModelProperty(example = "Rio de Janeiro")
+	@ApiModelProperty(example = "Minas Gerais")
 	private String nome;
-	
-	@ApiModelProperty(example = "RJ")
-	private String sigla;
 }

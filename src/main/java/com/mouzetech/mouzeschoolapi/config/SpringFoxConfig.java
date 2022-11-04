@@ -66,7 +66,8 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 			.tags(new Tag("Matérias", "Gerencia as matérias"))
 			.tags(new Tag("Médias", "Gerencia média das notas dos alunos"))
 			.tags(new Tag("Relatórios", "Gera relatórios"))
-			.tags(new Tag("Turmas", "Gerencia as turmas"));
+			.tags(new Tag("Turmas", "Gerencia as turmas"))
+			.tags(new Tag("Estados", "Gerencia os estados"));
 	}
 	
 	private List<Response> globalGetResponseMessages(){
