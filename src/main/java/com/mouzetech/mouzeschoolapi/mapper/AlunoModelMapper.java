@@ -46,7 +46,7 @@ public class AlunoModelMapper {
 	
 	public AlunoResumoModel toAlunoResumoDTO(Aluno aluno) {
 		AlunoResumoModel dto = new AlunoResumoModel();
-		dto.setNome(aluno.getNome());
+		dto.setNomeAluno(aluno.getNome());
 		return dto;
 	}
 	

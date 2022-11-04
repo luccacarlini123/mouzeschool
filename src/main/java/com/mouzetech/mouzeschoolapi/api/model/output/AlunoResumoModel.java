@@ -8,5 +8,5 @@ import lombok.Setter;
 @Setter
 public class AlunoResumoModel {
 	@ApiModelProperty(example = "Lucca")
-	private String nome;
+	private String nomeAluno;
 }	
