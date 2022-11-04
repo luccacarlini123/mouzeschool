@@ -8,9 +8,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AlunosDaTurmaModel {
-
 	private String nomeTurma;
 	private List<AlunoResumoModel> alunos;
-	
-
 }

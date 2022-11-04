@@ -58,7 +58,7 @@ public class TurmaResource implements TurmaResourceOpenApi {
 	
 	private AlunoModelMapper alunoModelMapper;
 	
-	@GetMapping
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.OK)
 	public List<ResumoTurmaModel> buscarTurmas(@RequestParam(required = false, defaultValue = "true") boolean ativo){
 		List<Turma> listTurma = null;
@@ -72,13 +72,13 @@ public class TurmaResource implements TurmaResourceOpenApi {
 		return turmaModelMapper.toCollectionResumoModel(listTurma);
 	}
 	
-	@GetMapping("/{turmaId}")
+	@GetMapping(path = "/{turmaId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.OK)
 	public TurmaModel buscarPorId(@PathVariable Long turmaId) {
 		return turmaModelMapper.toModel(cadastroTurmaService.buscarPorId(turmaId));
 	}
 	
-	@GetMapping("/{turmaId}/grade-curricular")
+	@GetMapping(value = "/{turmaId}/grade-curricular", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.OK)
 	public GradeCurricularModel buscarMateriasProfessoresPorTurma(@PathVariable Long turmaId){
 		Turma turma = cadastroTurmaService.buscarPorId(turmaId);
@@ -86,7 +86,7 @@ public class TurmaResource implements TurmaResourceOpenApi {
 		return cadastroTurmaMateriaProfessorService.buscarGradeCurricularPorTurma(turma);		
 	}
 	
-	@GetMapping("/{turmaId}/alunos")
+	@GetMapping(value = "/{turmaId}/alunos", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.OK)
 	public List<ResumoAlunoModel> buscarAlunosDaTurma(@PathVariable Long turmaId){
 		Turma turma = cadastroTurmaService.buscarPorId(turmaId);
@@ -100,13 +100,13 @@ public class TurmaResource implements TurmaResourceOpenApi {
 		return ResponseEntity.ok(turmaModelMapper.toModel(cadastroTurmaService.cadastrar(dto)));
 	}
 	
-	@PostMapping("/alocar-professor")
+	@PutMapping("/alocar-professor")
 	@ResponseStatus(HttpStatus.OK)
 	public void alocarProfessorEmTurma(@RequestBody AlocarProfessorEmTurmaInput dto){
 		cadastroProfessorTurmaService.matricularProfessorEmTurma(dto.getProfessorId(), dto.getTurmaId(), dto.getMateriaId());
 	}
 	
-	@PostMapping("/matricular-aluno")
+	@PutMapping("/matricular-aluno")
 	@ResponseStatus(HttpStatus.OK)
 	public void matricularAlunoEmTurma(@RequestParam(required = true) Long alunoId, @RequestParam(required = true) Long turmaId){
 		cadastroAlunoTurmaService.matricularAlunoNaTurma(alunoId, turmaId);
