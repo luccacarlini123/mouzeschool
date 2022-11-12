@@ -18,12 +18,12 @@ public interface MateriaResourceOpenApi {
 	
 	@ApiOperation(value = "Busca matéria por ID")
 	public MateriaModel buscarPorId(
-			@ApiParam(value = "ID da turma", required = true)
+			@ApiParam(value = "ID da matéria", required = true)
 			Long materiaId);
 	
 	@ApiOperation(value = "Busca matéria por nome")
 	public List<MateriaModel> buscarPorNomeContaining(
-			@ApiParam(value = "Nome da turma", required = true)
+			@ApiParam(value = "Nome da matéria", required = true)
 			String nome);
 	
 	@ApiOperation(value = "Salva uma nova matéria")
@@ -31,18 +31,18 @@ public interface MateriaResourceOpenApi {
 			@ApiParam(value = "Representação de uma matéria a ser cadastrada", name = "corpo")
 			CadastrarMateriaInput dto);
 	
-	@ApiOperation(value = "Ativa turma")
-	public void ativarTurma(
-			@ApiParam(value = "ID da turma", required = true)
+	@ApiOperation(value = "Ativa matéria")
+	public void ativarMateria(
+			@ApiParam(value = "ID da matéria", required = true)
 			Long materiaId);
 	
-	@ApiOperation(value = "Desativa turma")
-	public void desativarTurma(
-			@ApiParam(value = "ID da turma", required = true)
+	@ApiOperation(value = "Desativa matéria")
+	public void desativarMateria(
+			@ApiParam(value = "ID da matéria", required = true)
 			Long materiaId);
 	
-	@ApiOperation(value = "Exclui turma")
+	@ApiOperation(value = "Exclui matéria")
 	public void excluir(
-			@ApiParam(value = "ID da turma", required = true)
+			@ApiParam(value = "ID da matéria", required = true)
 			Long materiaId);
 }

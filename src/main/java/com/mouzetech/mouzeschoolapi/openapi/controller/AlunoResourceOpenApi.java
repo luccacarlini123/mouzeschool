@@ -22,7 +22,7 @@ import io.swagger.annotations.ApiResponses;
 @Api(tags = "Alunos")
 public interface AlunoResourceOpenApi {
 
-	@ApiOperation(value = "Busca todos os alunos")
+	@ApiOperation(value = "Busca paginado todos os alunos", notes = "Por padrão trará apenas 10 registros, se possuir.")
 	public Page<ResumoAlunoModel> buscarAlunos(Pageable pageable);
 
 	@ApiOperation(value = "Busca aluno por ID")

@@ -63,13 +63,13 @@ public class MateriaResource implements MateriaResourceOpenApi {
 	
 	@PutMapping("/ativar/{materiaId}")
 	@ResponseStatus(HttpStatus.OK)
-	public void ativarTurma(@PathVariable Long materiaId){
+	public void ativarMateria(@PathVariable Long materiaId){
 		cadastroMateriaService.ativar(materiaId);
 	}
 	
 	@PutMapping("/desativar/{materiaId}")
 	@ResponseStatus(HttpStatus.OK)
-	public void desativarTurma(@PathVariable Long materiaId){
+	public void desativarMateria(@PathVariable Long materiaId){
 		cadastroMateriaService.desativar(materiaId);
 	}
 	

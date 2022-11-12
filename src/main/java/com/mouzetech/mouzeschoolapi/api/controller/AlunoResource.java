@@ -51,7 +51,7 @@ public class AlunoResource implements AlunoResourceOpenApi {
 	private EnderecoModelMapper enderecoModelMapper;
 	
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public Page<ResumoAlunoModel> buscarAlunos(@PageableDefault(size = 1) Pageable pageable){
+	public Page<ResumoAlunoModel> buscarAlunos(@PageableDefault(size = 10) Pageable pageable){
 		pageable = traduzirPageable(pageable);
 		
 		List<ResumoAlunoModel> alunos = alunoModelMapper.toCollectionResumoAlunoModel(
