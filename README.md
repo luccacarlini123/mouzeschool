@@ -19,3 +19,6 @@ Gerar relatórios;
 Enviar emails;
 
 Além de diversas consultas aos dados...
+
+<h3>Para subir a aplicação basta apenas acessar o link a baixo, la tem todas as intruções do que deve ser feito...</h3>
+<a href="https://docs.google.com/document/d/1SQWO7qd65oc9ofVCJ2Y4rE0beNgonPl_/edit?usp=share_link&ouid=118239438669512525704&rtpof=true&sd=true">Link para acesso</a>
