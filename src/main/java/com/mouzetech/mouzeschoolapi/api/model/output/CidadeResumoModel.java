@@ -6,14 +6,14 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CidadeModel {
+public class CidadeResumoModel {
 	
 	@ApiModelProperty(example = "1")
 	private Long id;
 	
 	@ApiModelProperty(example = "Paracambi")
-	private String nome;	
+	private String nome;
 	
-	@ApiModelProperty(value = "Representação de um estado", name = "corpo")
-	private EstadoModel estado;
+	@ApiModelProperty(example = "Rio de Janeiro")
+	private String estado;	
 }

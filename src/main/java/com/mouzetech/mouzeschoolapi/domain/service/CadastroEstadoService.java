@@ -3,10 +3,12 @@ package com.mouzetech.mouzeschoolapi.domain.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.mouzetech.mouzeschoolapi.api.model.input.EstadoInput;
 import com.mouzetech.mouzeschoolapi.domain.exception.EstadoNaoEncontradoException;
+import com.mouzetech.mouzeschoolapi.domain.exception.NegocioException;
 import com.mouzetech.mouzeschoolapi.domain.model.Estado;
 import com.mouzetech.mouzeschoolapi.domain.repository.EstadoRepository;
 
@@ -45,8 +47,13 @@ public class CadastroEstadoService {
 	}
 	
 	public void excluir(Long estadoId) {
-		Estado estado = buscarPorId(estadoId);
-		estadoRepository.delete(estado);
+		try {
+			Estado estado = buscarPorId(estadoId);
+			estadoRepository.delete(estado);
+			estadoRepository.flush();
+		} catch(DataIntegrityViolationException ex) {	
+			throw new NegocioException("O estado está associado a 1 ou mais cidades, impossível excluir");
+		}
 	}
 	
 	
