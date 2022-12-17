@@ -32,7 +32,7 @@ import com.mouzetech.mouzeschoolapi.domain.service.CadastroAlunoService;
 import com.mouzetech.mouzeschoolapi.domain.service.CatalogoFotoPessoaService;
 import com.mouzetech.mouzeschoolapi.domain.service.FotoStorageService;
 import com.mouzetech.mouzeschoolapi.domain.service.FotoStorageService.FotoRecuperada;
-import com.mouzetech.mouzeschoolapi.mapper.FotoPessoaModelAssembler;
+import com.mouzetech.mouzeschoolapi.mapper.assembler.FotoPessoaModelAssembler;
 import com.mouzetech.mouzeschoolapi.openapi.controller.CatalogoFotoAlunoControllerOpenApi;
 
 @RestController

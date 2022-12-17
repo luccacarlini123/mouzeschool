@@ -17,12 +17,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mouzetech.mouzeschoolapi.api.model.input.CadastroCidadeInput;
+import com.mouzetech.mouzeschoolapi.api.model.input.CidadeInput;
 import com.mouzetech.mouzeschoolapi.api.model.output.CidadeModel;
 import com.mouzetech.mouzeschoolapi.api.model.output.CidadeResumoModel;
 import com.mouzetech.mouzeschoolapi.domain.model.Cidade;
 import com.mouzetech.mouzeschoolapi.domain.service.CadastroCidadeService;
-import com.mouzetech.mouzeschoolapi.mapper.CidadeModelMapper;
+import com.mouzetech.mouzeschoolapi.mapper.assembler.CidadeModelAssembler;
+import com.mouzetech.mouzeschoolapi.mapper.assembler.CidadeResumoModelAssembler;
+import com.mouzetech.mouzeschoolapi.mapper.disassembler.CidadeModelDisassembler;
 import com.mouzetech.mouzeschoolapi.openapi.controller.CidadeResourceResourceOpenApi;
 
 import lombok.AllArgsConstructor;
@@ -33,18 +35,20 @@ import lombok.AllArgsConstructor;
 public class CidadeResource implements CidadeResourceResourceOpenApi {
 
 	private CadastroCidadeService cadastroCidadeService;
-	private CidadeModelMapper cidadeModelMapper;
+	private CidadeModelAssembler cidadeModelAssembler;
+	private CidadeResumoModelAssembler cidadeResumoModelAssembler;
+	private CidadeModelDisassembler cidadeModelDisassembler;
 	
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<CidadeResumoModel> buscarTodos(){
-		return cidadeModelMapper
-				.toCollectionCidadeResumoModel(cadastroCidadeService.buscarTodos());
+		return cidadeResumoModelAssembler
+				.toCollectionModel(cadastroCidadeService.buscarTodos());
 	}
 	
 	@GetMapping(path = "/{cidadeId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<CidadeModel> buscarPorId(@PathVariable Long cidadeId){
 		return ResponseEntity.ok(
-				cidadeModelMapper.toCidadeModel(
+				cidadeModelAssembler.toModel(
 						cadastroCidadeService.buscarPorId(cidadeId)));
 	}
 	
@@ -55,16 +59,16 @@ public class CidadeResource implements CidadeResourceResourceOpenApi {
 	}
 	
 	@PutMapping("/{cidadeId}")
-	public void atualizar(@RequestBody @Valid CadastroCidadeInput input, @PathVariable Long cidadeId){
+	public void atualizar(@RequestBody @Valid CidadeInput input, @PathVariable Long cidadeId){
 		cadastroCidadeService.atualizar(cidadeId, input);
 	}
 	
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<CidadeModel> salvar(@RequestBody @Valid CadastroCidadeInput input){
-		Cidade cidade = cidadeModelMapper.fromCadastroCidadeInput(input);
+	public ResponseEntity<CidadeModel> salvar(@RequestBody @Valid CidadeInput input){
+		Cidade cidade = cidadeModelDisassembler.toEntity(input);
 		
 		return ResponseEntity.ok(
-				cidadeModelMapper.toCidadeModel(
+				cidadeModelAssembler.toModel(
 						cadastroCidadeService.salvar(cidade)));
 	}
 	

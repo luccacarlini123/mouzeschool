@@ -10,7 +10,7 @@ import com.mouzetech.mouzeschoolapi.domain.model.enumeration.GrauEnsino;
 import com.mouzetech.mouzeschoolapi.domain.model.enumeration.SerieEnsino;
 import com.mouzetech.mouzeschoolapi.domain.model.enumeration.StatusGeral;
 import com.mouzetech.mouzeschoolapi.domain.repository.TurmaRepository;
-import com.mouzetech.mouzeschoolapi.mapper.TurmaModelMapper;
+import com.mouzetech.mouzeschoolapi.mapper.disassembler.TurmaModelDisassembler;
 
 import lombok.AllArgsConstructor;
 
@@ -19,7 +19,7 @@ import lombok.AllArgsConstructor;
 public class CadastroTurmaService {
 
 	private TurmaRepository turmaRepository;
-	private TurmaModelMapper turmaModelMapper;
+	private TurmaModelDisassembler tumaModelDisassembler;
 	
 	public Turma buscarPorId(Long turmaId) {
 		return turmaRepository.findById(turmaId)
@@ -28,7 +28,7 @@ public class CadastroTurmaService {
 	
 	@Transactional
 	public Turma cadastrar(CadastrarTurmaInput dto) {
-		Turma turma = turmaModelMapper.toEntity(dto);
+		Turma turma = tumaModelDisassembler.toEntity(dto);
 		turma.setStatusTurma(StatusGeral.ATIVADA);
 		turma.setGrauEnsino(GrauEnsino.toEnum(dto.getGrauEnsino()));
 		turma.setSerieEnsino(SerieEnsino.toEnum(dto.getSerieEnsino()));

@@ -9,7 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CadastroCidadeInput {
+public class CidadeInput {
 	
 	@ApiModelProperty(example = "Barra da Tijuca", required = true)
 	@NotBlank

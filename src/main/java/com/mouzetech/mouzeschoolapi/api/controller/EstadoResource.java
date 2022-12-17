@@ -22,7 +22,9 @@ import com.mouzetech.mouzeschoolapi.api.model.output.EstadoModel;
 import com.mouzetech.mouzeschoolapi.api.model.output.ResumoEstadoModel;
 import com.mouzetech.mouzeschoolapi.domain.model.Estado;
 import com.mouzetech.mouzeschoolapi.domain.service.CadastroEstadoService;
-import com.mouzetech.mouzeschoolapi.mapper.EstadoModelMapper;
+import com.mouzetech.mouzeschoolapi.mapper.assembler.EstadoModelAssembler;
+import com.mouzetech.mouzeschoolapi.mapper.assembler.ResumoEstadoModelAssembler;
+import com.mouzetech.mouzeschoolapi.mapper.disassembler.EstadoModelDisassembler;
 import com.mouzetech.mouzeschoolapi.openapi.controller.EstadoResourceOpenApi;
 
 import lombok.AllArgsConstructor;
@@ -33,13 +35,14 @@ import lombok.AllArgsConstructor;
 public class EstadoResource implements EstadoResourceOpenApi {
 
 	private CadastroEstadoService cadastroEstadoService;
-	
-	private EstadoModelMapper estadoModelMapper;
+	private EstadoModelAssembler estadoModelMapper;
+	private ResumoEstadoModelAssembler resumoEstadoModelAssembler;
+	private EstadoModelDisassembler estadoModelDisassembler;
 	
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ResumoEstadoModel>> buscarTodos() {
 		return ResponseEntity.ok(
-				estadoModelMapper.toCollectionResumoEstadoModel(
+				resumoEstadoModelAssembler.toCollectionModel(
 						cadastroEstadoService.buscarTodos()));
 	}
 	
@@ -47,7 +50,7 @@ public class EstadoResource implements EstadoResourceOpenApi {
 	public ResponseEntity<EstadoModel> buscarPorId(@PathVariable Long estadoId) {
 		Estado estado = cadastroEstadoService.buscarPorId(estadoId);
 		return ResponseEntity.ok(
-				estadoModelMapper.toEstadoModel(estado));
+				estadoModelMapper.toModel(estado));
 	}
 	@DeleteMapping("/{estadoId}")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
@@ -57,11 +60,11 @@ public class EstadoResource implements EstadoResourceOpenApi {
 	
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<EstadoModel> salvar(@RequestBody @Valid EstadoInput estadoInput){
-		Estado estado = estadoModelMapper.toEntity(estadoInput);
+		Estado estado = estadoModelDisassembler.toEntity(estadoInput);
 		
 		estado = cadastroEstadoService.salvar(estado);
 		
-		return ResponseEntity.ok(estadoModelMapper.toEstadoModel(estado));
+		return ResponseEntity.ok(estadoModelMapper.toModel(estado));
 	}
 	
 	@PutMapping("/{estadoId}")

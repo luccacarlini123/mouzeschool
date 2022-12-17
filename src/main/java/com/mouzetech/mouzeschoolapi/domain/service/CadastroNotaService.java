@@ -22,7 +22,8 @@ import com.mouzetech.mouzeschoolapi.domain.model.Nota;
 import com.mouzetech.mouzeschoolapi.domain.model.Turma;
 import com.mouzetech.mouzeschoolapi.domain.model.enumeration.StatusGeral;
 import com.mouzetech.mouzeschoolapi.domain.repository.NotaRepository;
-import com.mouzetech.mouzeschoolapi.mapper.NotaModelMapper;
+import com.mouzetech.mouzeschoolapi.mapper.assembler.NotaModelAssembler;
+import com.mouzetech.mouzeschoolapi.mapper.assembler.RelacaoNotasDaTurmaModelAssembler;
 
 import lombok.AllArgsConstructor;
 
@@ -43,7 +44,9 @@ public class CadastroNotaService {
 	
 	private CadastroTurmaMateriaProfessorService cadastroTurmaMateriaProfessorService;
 	
-	private NotaModelMapper notaModelMapper;
+	private NotaModelAssembler notaModelMapper;
+	
+	private RelacaoNotasDaTurmaModelAssembler relacaoNotasDaTurmaModelAssembler;
 	
 	@Transactional
 	public void cadastrarNota(CadastrarNotaInput dto) {
@@ -109,7 +112,7 @@ public class CadastroNotaService {
 			notasModel.setTurma(turma.getNome());
 			
 			List<RelacaoNotasDaTurmaModel> relacaoNotasDaTurmaModelCollection = 
-						notaModelMapper.toRelacaoNotasDaTurmaModelCollection(notas);
+					relacaoNotasDaTurmaModelAssembler.toCollectionModel(notas);
 			
 			notasModel.getNotas().addAll(relacaoNotasDaTurmaModelCollection);
 		}

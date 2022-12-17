@@ -23,15 +23,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mouzetech.mouzeschoolapi.api.model.input.CadastrarAlunoInput;
+import com.mouzetech.mouzeschoolapi.api.model.input.AlunoInput;
 import com.mouzetech.mouzeschoolapi.api.model.input.EnderecoInput;
 import com.mouzetech.mouzeschoolapi.api.model.output.AlunoModel;
 import com.mouzetech.mouzeschoolapi.api.model.output.ResumoAlunoModel;
 import com.mouzetech.mouzeschoolapi.core.jackson.PageableTranslator;
 import com.mouzetech.mouzeschoolapi.domain.repository.AlunoRepository;
 import com.mouzetech.mouzeschoolapi.domain.service.CadastroAlunoService;
-import com.mouzetech.mouzeschoolapi.mapper.AlunoModelMapper;
-import com.mouzetech.mouzeschoolapi.mapper.EnderecoModelMapper;
+import com.mouzetech.mouzeschoolapi.mapper.assembler.AlunoModelAssembler;
+import com.mouzetech.mouzeschoolapi.mapper.assembler.EnderecoModelAssembler;
+import com.mouzetech.mouzeschoolapi.mapper.assembler.ResumoAlunoModelAssembler;
+import com.mouzetech.mouzeschoolapi.mapper.disassembler.AlunoModelDisassembler;
 import com.mouzetech.mouzeschoolapi.openapi.controller.AlunoResourceOpenApi;
 
 @RestController
@@ -45,16 +47,22 @@ public class AlunoResource implements AlunoResourceOpenApi {
 	private CadastroAlunoService cadastroAlunoService;
 	
 	@Autowired
-	private AlunoModelMapper alunoModelMapper;
+	private AlunoModelAssembler alunoModelMapper;
 	
 	@Autowired
-	private EnderecoModelMapper enderecoModelMapper;
+	private EnderecoModelAssembler enderecoModelMapper;
+	
+	@Autowired
+	private ResumoAlunoModelAssembler resumoAlunoModelAssembler;
+	
+	@Autowired
+	AlunoModelDisassembler alunoModelDisassembler;
 	
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public Page<ResumoAlunoModel> buscarAlunos(@PageableDefault(size = 10) Pageable pageable){
 		pageable = traduzirPageable(pageable);
 		
-		List<ResumoAlunoModel> alunos = alunoModelMapper.toCollectionResumoAlunoModel(
+		List<ResumoAlunoModel> alunos = resumoAlunoModelAssembler.toCollectionModel(
 					alunoRepository.findAll(pageable).getContent());
 				
 		return new PageImpl<ResumoAlunoModel>(alunos, pageable, pageable.getPageSize());
@@ -82,11 +90,11 @@ public class AlunoResource implements AlunoResourceOpenApi {
 	}
 	
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<AlunoModel> cadastrar(@RequestBody @Valid CadastrarAlunoInput dto){
+	public ResponseEntity<AlunoModel> cadastrar(@RequestBody @Valid AlunoInput dto){
 		return ResponseEntity.ok(
 					alunoModelMapper.toAlunoModel(
 							cadastroAlunoService.matricularAluno(
-									alunoModelMapper.toEntity(dto))));
+									alunoModelDisassembler.toEntity(dto))));
 	}
 	
 	@PutMapping("/{alunoId}/endereco")
@@ -99,13 +107,13 @@ public class AlunoResource implements AlunoResourceOpenApi {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ResponseEntity<?> buscarEndereco(@PathVariable Long alunoId) {
 		return cadastroAlunoService.buscarEndereco(alunoId).isPresent() 
-				? ResponseEntity.ok(enderecoModelMapper.toEnderecoModel(cadastroAlunoService.buscarEndereco(alunoId).get()))
+				? ResponseEntity.ok(enderecoModelMapper.toModel(cadastroAlunoService.buscarEndereco(alunoId).get()))
 				: ResponseEntity.noContent().build();
 	}
 	
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@PutMapping("/{alunoId}") 
-	public void atualizar(@RequestBody @Valid CadastrarAlunoInput dto, @PathVariable Long alunoId){
+	public void atualizar(@RequestBody @Valid AlunoInput dto, @PathVariable Long alunoId){
 		cadastroAlunoService.atualizar(dto, alunoId);
 	}
 	

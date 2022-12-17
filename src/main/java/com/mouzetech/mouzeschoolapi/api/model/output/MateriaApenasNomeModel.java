@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class MateriaResumoModel {
+public class MateriaApenasNomeModel {
 	
 	@ApiModelProperty(example = "1")
 	private Long id;

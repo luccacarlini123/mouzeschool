@@ -22,7 +22,8 @@ import com.mouzetech.mouzeschoolapi.api.model.output.ResumoMateriaModel;
 import com.mouzetech.mouzeschoolapi.domain.model.Materia;
 import com.mouzetech.mouzeschoolapi.domain.repository.MateriaRepository;
 import com.mouzetech.mouzeschoolapi.domain.service.CadastroMateriaService;
-import com.mouzetech.mouzeschoolapi.mapper.MateriaModelMapper;
+import com.mouzetech.mouzeschoolapi.mapper.assembler.MateriaModelAssembler;
+import com.mouzetech.mouzeschoolapi.mapper.assembler.ResumoMateriaModelAssembler;
 import com.mouzetech.mouzeschoolapi.openapi.controller.MateriaResourceOpenApi;
 
 import lombok.AllArgsConstructor;
@@ -34,12 +35,13 @@ public class MateriaResource implements MateriaResourceOpenApi {
 
 	private MateriaRepository materiaRepository;
 	private CadastroMateriaService cadastroMateriaService;
-	private MateriaModelMapper materiaModelMapper;
+	private MateriaModelAssembler materiaModelMapper;
+	private ResumoMateriaModelAssembler resumoMateriaModelAssembler;
 	
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(code = HttpStatus.OK)
 	public List<ResumoMateriaModel> buscarTodas() {
-		return materiaModelMapper.toCollectionResumoModel(materiaRepository.findAll());
+		return resumoMateriaModelAssembler.toCollectionModel(materiaRepository.findAll());
 	}
 	
 	

@@ -1,4 +1,4 @@
-package com.mouzetech.mouzeschoolapi.mapper;
+package com.mouzetech.mouzeschoolapi.mapper.assembler;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

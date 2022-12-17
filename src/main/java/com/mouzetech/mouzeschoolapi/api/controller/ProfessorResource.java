@@ -23,8 +23,10 @@ import com.mouzetech.mouzeschoolapi.api.model.output.ProfessorModel;
 import com.mouzetech.mouzeschoolapi.api.model.output.ResumoProfessorModel;
 import com.mouzetech.mouzeschoolapi.domain.repository.ProfessorRepository;
 import com.mouzetech.mouzeschoolapi.domain.service.CadastroProfessorService;
-import com.mouzetech.mouzeschoolapi.mapper.EnderecoModelMapper;
-import com.mouzetech.mouzeschoolapi.mapper.ProfessorModelMapper;
+import com.mouzetech.mouzeschoolapi.mapper.assembler.EnderecoModelAssembler;
+import com.mouzetech.mouzeschoolapi.mapper.assembler.ProfessorModelAssembler;
+import com.mouzetech.mouzeschoolapi.mapper.assembler.ResumoProfessorModelAssembler;
+import com.mouzetech.mouzeschoolapi.mapper.disassembler.ProfessorModelDisassembler;
 import com.mouzetech.mouzeschoolapi.openapi.controller.ProfessorResourceOpenApi;
 
 import lombok.AllArgsConstructor;
@@ -35,40 +37,42 @@ import lombok.AllArgsConstructor;
 public class ProfessorResource implements ProfessorResourceOpenApi {
 
 	private ProfessorRepository professorRepository;
-	private ProfessorModelMapper professorModelMapper;
+	private ProfessorModelAssembler professorModelMapper;
 	private CadastroProfessorService cadastroProfessorService;
-	private EnderecoModelMapper enderecoModelMapper;
+	private EnderecoModelAssembler enderecoModelMapper;
+	private ResumoProfessorModelAssembler resumoProfessorModelMapper;
+	private ProfessorModelDisassembler professorModelDisassembler;
 	
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<ResumoProfessorModel> buscarProfessores(){
-		return professorModelMapper.toCollectionResumoProfessorDTO(professorRepository.buscarProfessoresComDadosResumidos());
+		return resumoProfessorModelMapper.toCollectionModel(professorRepository.buscarProfessoresComDadosResumidos());
 	}
 	
 	@GetMapping(value = "/{professorId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ProfessorModel> buscarPorId(@PathVariable Long professorId) {
-		return ResponseEntity.ok(professorModelMapper.toProfessorDTO(cadastroProfessorService.buscarPorId(professorId)));
+		return ResponseEntity.ok(professorModelMapper.toModel(cadastroProfessorService.buscarPorId(professorId)));
 	}
 	
 	@GetMapping(value = "/email/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ProfessorModel>> buscarPorEmail(@PathVariable("email") String email){
 		return ResponseEntity.ok(
-				professorModelMapper.toCollectionProfessorDTO(
+				professorModelMapper.toCollectionModel(
 						professorRepository.findByEmailContaining(email)));
 	}
 	
 	@GetMapping(value = "/nome/{nome}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ProfessorModel>> buscarPorNome(@PathVariable("nome") String nome){
 		return ResponseEntity.ok(
-				professorModelMapper.toCollectionProfessorDTO(
+				professorModelMapper.toCollectionModel(
 						professorRepository.findByNomeContaining(nome)));
 	}
 	
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ProfessorModel> cadastrar(@RequestBody @Valid CadastrarProfessorInput dto) {
 		return ResponseEntity.ok(
-				professorModelMapper.toProfessorDTO(
+				professorModelMapper.toModel(
 						cadastroProfessorService.matricularProfessor(
-								professorModelMapper.toEntity(dto))));
+								professorModelDisassembler.toEntity(dto))));
 	}
 	
 	@PutMapping("/{professorId}/endereco")
@@ -81,7 +85,7 @@ public class ProfessorResource implements ProfessorResourceOpenApi {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ResponseEntity<?> buscarEndereco(@PathVariable Long professorId) {
 		return cadastroProfessorService.buscarEndereco(professorId).isPresent() 
-				? ResponseEntity.ok(enderecoModelMapper.toEnderecoModel(cadastroProfessorService.buscarEndereco(professorId).get()))
+				? ResponseEntity.ok(enderecoModelMapper.toModel(cadastroProfessorService.buscarEndereco(professorId).get()))
 				: ResponseEntity.noContent().build();
 	}
 	

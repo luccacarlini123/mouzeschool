@@ -16,7 +16,8 @@ import com.mouzetech.mouzeschoolapi.domain.model.enumeration.SerieEnsino;
 import com.mouzetech.mouzeschoolapi.domain.model.enumeration.StatusGeral;
 import com.mouzetech.mouzeschoolapi.domain.repository.MateriaRepository;
 import com.mouzetech.mouzeschoolapi.domain.repository.TurmaMateriaProfessorRepository;
-import com.mouzetech.mouzeschoolapi.mapper.MateriaModelMapper;
+import com.mouzetech.mouzeschoolapi.mapper.assembler.MateriaModelAssembler;
+import com.mouzetech.mouzeschoolapi.mapper.disassembler.MateriaModelDisassembler;
 
 import lombok.AllArgsConstructor;
 
@@ -25,8 +26,9 @@ import lombok.AllArgsConstructor;
 public class CadastroMateriaService {
 
 	private MateriaRepository materiaRepository;
-	private MateriaModelMapper materiaModelMapper;
+	private MateriaModelAssembler materiaModelMapper;
 	private TurmaMateriaProfessorRepository turmaMateriaProfessorRepository;
+	private MateriaModelDisassembler materiaModelDisassembler;
 	
 	public Materia buscarPorId(Long materiaId) {
 		return materiaRepository.findById(materiaId)
@@ -52,7 +54,7 @@ public class CadastroMateriaService {
 	
 	@Transactional
 	public Materia cadastrar(CadastrarMateriaInput dto) {
-		Materia materia = materiaModelMapper.toEntity(dto);		
+		Materia materia = materiaModelDisassembler.toEntity(dto);		
 		materia.setGrauEnsino(GrauEnsino.toEnum(dto.getGrauEnsino()));
 		materia.setSerieEnsino(SerieEnsino.toEnum(dto.getSerieEnsino()));
 		materia.setStatusMateria(StatusGeral.DESATIVADA);

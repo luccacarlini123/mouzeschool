@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
-import com.mouzetech.mouzeschoolapi.api.model.input.CadastrarAlunoInput;
+import com.mouzetech.mouzeschoolapi.api.model.input.AlunoInput;
 import com.mouzetech.mouzeschoolapi.api.model.input.EnderecoInput;
 import com.mouzetech.mouzeschoolapi.api.model.output.AlunoModel;
 import com.mouzetech.mouzeschoolapi.api.model.output.EnderecoModel;
@@ -43,7 +43,7 @@ public interface AlunoResourceOpenApi {
 	@ApiOperation(value = "Salva um aluno")
 	public ResponseEntity<AlunoModel> cadastrar(
 			@ApiParam(value = "Representação de um aluno a ser salvo", name = "corpo")
-			CadastrarAlunoInput dto);
+			AlunoInput dto);
 	
 	@ApiOperation(value = "Cadastra endereço para aluno")
 	public void cadastrarEndereco(
@@ -56,7 +56,7 @@ public interface AlunoResourceOpenApi {
 	@ApiOperation(value = "Atualiza um aluno")
 	public void atualizar(
 			@ApiParam(value = "Representação de um aluno a ser atualizado", name = "corpo")
-			CadastrarAlunoInput dto, 
+			AlunoInput dto, 
 			
 			@ApiParam(value = "ID do aluno", required = true)
 			Long alunoId);

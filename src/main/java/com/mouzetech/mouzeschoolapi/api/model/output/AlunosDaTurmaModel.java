@@ -9,5 +9,5 @@ import lombok.Setter;
 @Setter
 public class AlunosDaTurmaModel {
 	private String nomeTurma;
-	private List<AlunoResumoModel> alunos;
+	private List<AlunoApenasNomeModel> alunos;
 }

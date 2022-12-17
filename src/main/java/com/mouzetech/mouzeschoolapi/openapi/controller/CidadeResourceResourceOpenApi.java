@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 
-import com.mouzetech.mouzeschoolapi.api.model.input.CadastroCidadeInput;
+import com.mouzetech.mouzeschoolapi.api.model.input.CidadeInput;
 import com.mouzetech.mouzeschoolapi.api.model.output.CidadeModel;
 import com.mouzetech.mouzeschoolapi.api.model.output.CidadeResumoModel;
 
@@ -31,7 +31,7 @@ public interface CidadeResourceResourceOpenApi {
 	@ApiOperation(value = "Atualizar cidade")
 	public void atualizar(
 			@ApiParam(value = "Representação de uma nova cidade a ser atualizada", name = "corpo") 
-			CadastroCidadeInput input, 
+			CidadeInput input, 
 			
 			@ApiParam(value = "ID da cidade", required = true)
 			Long cidadeId);
@@ -39,5 +39,5 @@ public interface CidadeResourceResourceOpenApi {
 	@ApiOperation(value = "Cadastrar uma nova cidade")
 	public ResponseEntity<CidadeModel> salvar(
 			@ApiParam(value = "Representação de uma nova cidade a ser cadastrada", name = "corpo") 
-			CadastroCidadeInput input);
+			CidadeInput input);
 }

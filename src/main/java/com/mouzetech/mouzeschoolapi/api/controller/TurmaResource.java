@@ -31,8 +31,9 @@ import com.mouzetech.mouzeschoolapi.domain.service.CadastroProfessorTurmaService
 import com.mouzetech.mouzeschoolapi.domain.service.CadastroTurmaMateriaProfessorService;
 import com.mouzetech.mouzeschoolapi.domain.service.CadastroTurmaService;
 import com.mouzetech.mouzeschoolapi.domain.service.MudarAlunoDeTurmaService;
-import com.mouzetech.mouzeschoolapi.mapper.AlunoModelMapper;
-import com.mouzetech.mouzeschoolapi.mapper.TurmaModelMapper;
+import com.mouzetech.mouzeschoolapi.mapper.assembler.ResumoAlunoModelAssembler;
+import com.mouzetech.mouzeschoolapi.mapper.assembler.ResumoTurmaModelAssembler;
+import com.mouzetech.mouzeschoolapi.mapper.assembler.TurmaModelAssembler;
 import com.mouzetech.mouzeschoolapi.openapi.controller.TurmaResourceOpenApi;
 
 import lombok.AllArgsConstructor;
@@ -54,9 +55,11 @@ public class TurmaResource implements TurmaResourceOpenApi {
 	
 	private CadastroTurmaMateriaProfessorService cadastroTurmaMateriaProfessorService;
 	
-	private TurmaModelMapper turmaModelMapper;
+	private TurmaModelAssembler turmaModelMapper;
+		
+	private ResumoAlunoModelAssembler resumoAlunoModelAssembler;
 	
-	private AlunoModelMapper alunoModelMapper;
+	private ResumoTurmaModelAssembler resumoTurmaModelAssembler;
 	
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.OK)
@@ -69,7 +72,7 @@ public class TurmaResource implements TurmaResourceOpenApi {
 			listTurma = turmaRepository.findByStatusTurma(StatusGeral.ATIVADA);
 		}
 		
-		return turmaModelMapper.toCollectionResumoModel(listTurma);
+		return resumoTurmaModelAssembler.toCollectionModel(listTurma);
 	}
 	
 	@GetMapping(path = "/{turmaId}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -91,7 +94,7 @@ public class TurmaResource implements TurmaResourceOpenApi {
 	public List<ResumoAlunoModel> buscarAlunosDaTurma(@PathVariable Long turmaId){
 		Turma turma = cadastroTurmaService.buscarPorId(turmaId);
 		
-		return alunoModelMapper.toCollectionResumoAlunoModel(turma.getAlunos());
+		return resumoAlunoModelAssembler.toCollectionModel(turma.getAlunos());
 	}
 	
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)

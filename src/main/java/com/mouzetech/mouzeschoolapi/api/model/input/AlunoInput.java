@@ -14,7 +14,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter@Setter
-public class CadastrarAlunoInput {
+public class AlunoInput {
 	
 	@ApiModelProperty(example = "Nedved Couto", required = true)
 	@NotBlank

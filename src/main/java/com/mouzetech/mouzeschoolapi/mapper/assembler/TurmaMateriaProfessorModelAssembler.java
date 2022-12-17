@@ -1,4 +1,4 @@
-package com.mouzetech.mouzeschoolapi.mapper;
+package com.mouzetech.mouzeschoolapi.mapper.assembler;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,18 +13,18 @@ import lombok.AllArgsConstructor;
 
 @Component
 @AllArgsConstructor
-public class TurmaMateriaProfessorModelMapper {
+public class TurmaMateriaProfessorModelAssembler {
 
 	private ModelMapper modelMapper;
 	
-	public GradeCurricularModel toGardeCurricularDTO(TurmaMateriaProfessor turmaMateriaProfessor) {
+	public GradeCurricularModel toModel(TurmaMateriaProfessor turmaMateriaProfessor) {
 		return modelMapper.map(turmaMateriaProfessor, GradeCurricularModel.class);
 	}
 	
-	public List<GradeCurricularModel> toCollectionDTO(List<TurmaMateriaProfessor> turmaMateriaProfessorList) {
+	public List<GradeCurricularModel> toCollectionModel(List<TurmaMateriaProfessor> turmaMateriaProfessorList) {
 		return turmaMateriaProfessorList
 				.stream()
-				.map(turmaMateriaProfessor -> toGardeCurricularDTO(turmaMateriaProfessor))
+				.map(turmaMateriaProfessor -> toModel(turmaMateriaProfessor))
 				.collect(Collectors.toList());
 	}
 }

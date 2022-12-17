@@ -18,8 +18,9 @@ import com.mouzetech.mouzeschoolapi.domain.model.Professor;
 import com.mouzetech.mouzeschoolapi.domain.model.enumeration.StatusGeral;
 import com.mouzetech.mouzeschoolapi.domain.repository.MatriculaRepository;
 import com.mouzetech.mouzeschoolapi.domain.repository.ProfessorRepository;
-import com.mouzetech.mouzeschoolapi.mapper.EnderecoModelMapper;
-import com.mouzetech.mouzeschoolapi.mapper.ProfessorModelMapper;
+import com.mouzetech.mouzeschoolapi.mapper.assembler.ProfessorModelAssembler;
+import com.mouzetech.mouzeschoolapi.mapper.disassembler.EnderecoModelDisassembler;
+import com.mouzetech.mouzeschoolapi.mapper.disassembler.ProfessorModelDisassembler;
 
 import lombok.AllArgsConstructor;
 
@@ -29,10 +30,11 @@ public class CadastroProfessorService {
 
 	private ProfessorRepository professorRepository;
 	private MatriculaRepository matriculaRepository;
-	private ProfessorModelMapper professorModelMapper;
-	private EnderecoModelMapper enderecoModelMapper;
+	private ProfessorModelAssembler professorModelMapper;
 	private CadastroCidadeService cadastroCidadeService;
 	private PessoaService pessoaService;
+	private EnderecoModelDisassembler enderecoModelDisassembler;
+	private ProfessorModelDisassembler professorModelDisassembler;
 	
 	public Professor buscarPorId(Long professorId) {
 		return professorRepository.findById(professorId)
@@ -78,7 +80,7 @@ public class CadastroProfessorService {
 			throw new NegocioException("CPF já cadastrado");
 		}
 		
-		professor = professorModelMapper.toEntity(dto);
+		professor = professorModelDisassembler.toEntity(dto);
 		professor.setId(professorId);
 		professor.setMatricula(matricula);
 		
@@ -114,7 +116,7 @@ public class CadastroProfessorService {
 	@Transactional
 	public void cadastrarEndereco(EnderecoInput input, Long professorId) {
 		Professor professor = buscarPorId(professorId);
-		Endereco endereco = enderecoModelMapper.toObject(input);
+		Endereco endereco = enderecoModelDisassembler.toEntity(input);
 		Cidade cidade = cadastroCidadeService.buscarPorId(input.getCidadeId());
 		endereco.setCidade(cidade);
 		professor.setEndereco(endereco);

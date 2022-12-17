@@ -19,7 +19,7 @@ import com.mouzetech.mouzeschoolapi.api.model.output.NotaModel;
 import com.mouzetech.mouzeschoolapi.api.model.output.NotasDaTurmaModel;
 import com.mouzetech.mouzeschoolapi.domain.repository.NotaRepository;
 import com.mouzetech.mouzeschoolapi.domain.service.CadastroNotaService;
-import com.mouzetech.mouzeschoolapi.mapper.NotaModelMapper;
+import com.mouzetech.mouzeschoolapi.mapper.assembler.NotaModelAssembler;
 import com.mouzetech.mouzeschoolapi.openapi.controller.NotaResourceOpenApi;
 
 import lombok.AllArgsConstructor;
@@ -31,11 +31,11 @@ public class NotaResource implements NotaResourceOpenApi {
 
 	private NotaRepository notaRepository;
 	private CadastroNotaService cadastroNotaService;
-	private NotaModelMapper notaModelMapper;
+	private NotaModelAssembler notaModelMapper;
 	
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<NotaModel>> buscarNotas(){
-		return ResponseEntity.ok(notaModelMapper.toCollectionNotaModel(notaRepository.findAll()));
+		return ResponseEntity.ok(notaModelMapper.toCollectionModel(notaRepository.findAll()));
 	}
 	
 	@PostMapping

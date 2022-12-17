@@ -7,7 +7,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.mouzetech.mouzeschoolapi.api.model.input.CadastroCidadeInput;
+import com.mouzetech.mouzeschoolapi.api.model.input.CidadeInput;
 import com.mouzetech.mouzeschoolapi.domain.exception.AlunoNaoEncontradoException;
 import com.mouzetech.mouzeschoolapi.domain.exception.NegocioException;
 import com.mouzetech.mouzeschoolapi.domain.model.Cidade;
@@ -40,7 +40,7 @@ public class CadastroCidadeService {
 	}
 	
 	@Transactional
-	public void atualizar(Long cidadeId, CadastroCidadeInput input) {
+	public void atualizar(Long cidadeId, CidadeInput input) {
 		Cidade cidade = buscarPorId(cidadeId);
 		
 		Estado estado = cadastroEstadoService.buscarPorId(input.getEstadoId());

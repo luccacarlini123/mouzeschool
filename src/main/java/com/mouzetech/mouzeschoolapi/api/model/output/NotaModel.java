@@ -11,9 +11,9 @@ public class NotaModel {
 	@ApiModelProperty(example = "1")
 	private Long id;
 	
-	private AlunoResumoModel aluno;
+	private AlunoApenasNomeModel aluno;
 	
-	private MateriaResumoModel materia;
+	private MateriaApenasNomeModel materia;
 	
 	private TurmaResumoModel turma;
 	

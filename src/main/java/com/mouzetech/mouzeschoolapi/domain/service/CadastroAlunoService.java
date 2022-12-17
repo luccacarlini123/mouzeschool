@@ -7,7 +7,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.mouzetech.mouzeschoolapi.api.model.input.CadastrarAlunoInput;
+import com.mouzetech.mouzeschoolapi.api.model.input.AlunoInput;
 import com.mouzetech.mouzeschoolapi.api.model.input.EnderecoInput;
 import com.mouzetech.mouzeschoolapi.domain.exception.AlunoNaoEncontradoException;
 import com.mouzetech.mouzeschoolapi.domain.exception.NegocioException;
@@ -18,8 +18,9 @@ import com.mouzetech.mouzeschoolapi.domain.model.Matricula;
 import com.mouzetech.mouzeschoolapi.domain.model.enumeration.StatusGeral;
 import com.mouzetech.mouzeschoolapi.domain.repository.AlunoRepository;
 import com.mouzetech.mouzeschoolapi.domain.repository.MatriculaRepository;
-import com.mouzetech.mouzeschoolapi.mapper.AlunoModelMapper;
-import com.mouzetech.mouzeschoolapi.mapper.EnderecoModelMapper;
+import com.mouzetech.mouzeschoolapi.mapper.assembler.EnderecoModelAssembler;
+import com.mouzetech.mouzeschoolapi.mapper.disassembler.AlunoModelDisassembler;
+import com.mouzetech.mouzeschoolapi.mapper.disassembler.EnderecoModelDisassembler;
 
 import lombok.AllArgsConstructor;
 
@@ -29,10 +30,11 @@ public class CadastroAlunoService {
 
 	private AlunoRepository alunoRepository;
 	private MatriculaRepository matriculaRepository;
-	private AlunoModelMapper alunoModelMapper;
-	private EnderecoModelMapper enderecoModelMapper;
+	private EnderecoModelAssembler enderecoModelMapper;
 	private CadastroCidadeService cadastroCidadeService;
 	private PessoaService pessoaService;
+	private AlunoModelDisassembler alunoModelDisassembler;
+	private EnderecoModelDisassembler enderecoModelDisassembler;
 	
 	public Aluno buscarPorId(Long alunoId) {
 		return alunoRepository.findById(alunoId)
@@ -65,7 +67,7 @@ public class CadastroAlunoService {
 	}
 	
 	@Transactional
-	public void atualizar(CadastrarAlunoInput dto, Long alunoId) {
+	public void atualizar(AlunoInput dto, Long alunoId) {
 		Aluno aluno = buscarPorId(alunoId);
 		Matricula matricula = aluno.getMatricula();
 		
@@ -73,7 +75,7 @@ public class CadastroAlunoService {
 			throw new NegocioException("Email já cadastrado");
 		}
 		
-		aluno = alunoModelMapper.toEntity(dto);
+		aluno = alunoModelDisassembler.toEntity(dto);
 		aluno.setId(alunoId);
 		aluno.setMatricula(matricula);
 		
@@ -97,7 +99,7 @@ public class CadastroAlunoService {
 	@Transactional
 	public void cadastrarEndereco(EnderecoInput input, Long alunoId) {
 		Aluno aluno = buscarPorId(alunoId);
-		Endereco endereco = enderecoModelMapper.toObject(input);
+		Endereco endereco = enderecoModelDisassembler.toEntity(input);
 		Cidade cidade = cadastroCidadeService.buscarPorId(input.getCidadeId());
 		endereco.setCidade(cidade);
 		aluno.setEndereco(endereco);

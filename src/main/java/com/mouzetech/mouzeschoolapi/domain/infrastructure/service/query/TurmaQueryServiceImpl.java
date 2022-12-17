@@ -5,12 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.mouzetech.mouzeschoolapi.api.model.output.AlunoResumoModel;
+import com.mouzetech.mouzeschoolapi.api.model.output.AlunoApenasNomeModel;
 import com.mouzetech.mouzeschoolapi.api.model.output.AlunosDaTurmaModel;
 import com.mouzetech.mouzeschoolapi.domain.model.Turma;
 import com.mouzetech.mouzeschoolapi.domain.service.CadastroTurmaService;
 import com.mouzetech.mouzeschoolapi.domain.service.TurmaQueryService;
-import com.mouzetech.mouzeschoolapi.mapper.AlunoModelMapper;
+import com.mouzetech.mouzeschoolapi.mapper.assembler.AlunoApenasNomeModelAssembler;
+import com.mouzetech.mouzeschoolapi.mapper.assembler.AlunoModelAssembler;
 
 @Service
 public class TurmaQueryServiceImpl implements TurmaQueryService {
@@ -19,7 +20,10 @@ public class TurmaQueryServiceImpl implements TurmaQueryService {
 	private CadastroTurmaService cadastroTurmaService;
 	
 	@Autowired
-	private AlunoModelMapper alunoModelMapper;
+	private AlunoModelAssembler alunoModelMapper;
+	
+	@Autowired
+	private AlunoApenasNomeModelAssembler alunoApenasNomeModelAssembler;
 	
 	@Override
 	public AlunosDaTurmaModel buscarAlunosDaTurma(Long turmaId) {
@@ -28,8 +32,8 @@ public class TurmaQueryServiceImpl implements TurmaQueryService {
 		AlunosDaTurmaModel dto = new AlunosDaTurmaModel();
 		dto.setNomeTurma(turma.getNome());
 		
-		List<AlunoResumoModel> alunosDaTurma = 
-				alunoModelMapper.toCollectionAlunoResumoDTO(turma.getAlunos());
+		List<AlunoApenasNomeModel> alunosDaTurma = 
+				alunoApenasNomeModelAssembler.toCollectionModel(turma.getAlunos());
 		
 		dto.setAlunos(alunosDaTurma);
 		
