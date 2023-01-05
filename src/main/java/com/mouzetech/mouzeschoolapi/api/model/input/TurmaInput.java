@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter@Setter@CadastrarTurma
-public class CadastrarTurmaInput {
+public class TurmaInput {
 	
 	@ApiModelProperty(example = "Turma 1001", required = true)
 	@NotBlank

@@ -2,14 +2,18 @@ package com.mouzetech.mouzeschoolapi.api.model.output;
 
 import java.time.LocalDate;
 
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+@Relation(value = "professores")
 @Getter@Setter
-public class ProfessorModel {
+public class ProfessorModel extends RepresentationModel<ProfessorModel> {
 	
 	@ApiModelProperty(example = "1")
 	private Long id;

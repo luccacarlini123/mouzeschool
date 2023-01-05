@@ -2,14 +2,17 @@ package com.mouzetech.mouzeschoolapi.api.controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,11 +26,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mouzetech.mouzeschoolapi.api.ApiLinkBuilder;
 import com.mouzetech.mouzeschoolapi.api.model.input.AlunoInput;
 import com.mouzetech.mouzeschoolapi.api.model.input.EnderecoInput;
 import com.mouzetech.mouzeschoolapi.api.model.output.AlunoModel;
+import com.mouzetech.mouzeschoolapi.api.model.output.EnderecoModel;
 import com.mouzetech.mouzeschoolapi.api.model.output.ResumoAlunoModel;
 import com.mouzetech.mouzeschoolapi.core.jackson.PageableTranslator;
+import com.mouzetech.mouzeschoolapi.domain.model.Aluno;
+import com.mouzetech.mouzeschoolapi.domain.model.Endereco;
 import com.mouzetech.mouzeschoolapi.domain.repository.AlunoRepository;
 import com.mouzetech.mouzeschoolapi.domain.service.CadastroAlunoService;
 import com.mouzetech.mouzeschoolapi.mapper.assembler.AlunoModelAssembler;
@@ -38,108 +45,123 @@ import com.mouzetech.mouzeschoolapi.openapi.controller.AlunoResourceOpenApi;
 
 @RestController
 @RequestMapping("/alunos")
-public class AlunoResource implements AlunoResourceOpenApi {
+public class AlunoController implements AlunoResourceOpenApi {
 
 	@Autowired
 	private AlunoRepository alunoRepository;
-	
+
 	@Autowired
 	private CadastroAlunoService cadastroAlunoService;
-	
+
 	@Autowired
 	private AlunoModelAssembler alunoModelMapper;
-	
+
 	@Autowired
 	private EnderecoModelAssembler enderecoModelMapper;
-	
+
 	@Autowired
 	private ResumoAlunoModelAssembler resumoAlunoModelAssembler;
-	
+
 	@Autowired
 	AlunoModelDisassembler alunoModelDisassembler;
-	
+
+	@Autowired
+	private PagedResourcesAssembler<Aluno> pagedResourcesAssemblerAluno;
+
+	@Autowired
+	private ApiLinkBuilder apiLinkBuilder;
+
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public Page<ResumoAlunoModel> buscarAlunos(@PageableDefault(size = 10) Pageable pageable){
+	public PagedModel<ResumoAlunoModel> buscarAlunos(@PageableDefault(size = 2) Pageable pageable) {
 		pageable = traduzirPageable(pageable);
-		
-		List<ResumoAlunoModel> alunos = resumoAlunoModelAssembler.toCollectionModel(
-					alunoRepository.findAll(pageable).getContent());
-				
-		return new PageImpl<ResumoAlunoModel>(alunos, pageable, pageable.getPageSize());
+
+		Page<Aluno> resumoAlunoModelPage = alunoRepository.findAll(pageable);
+
+		PagedModel<ResumoAlunoModel> pagedAlunoModel = pagedResourcesAssemblerAluno.toModel(resumoAlunoModelPage,
+				resumoAlunoModelAssembler);
+
+		return pagedAlunoModel;
 	}
 
 	@GetMapping(path = "/{alunoId}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<AlunoModel> buscarPorId(@PathVariable Long alunoId){
-		return ResponseEntity.ok(
-				alunoModelMapper.toAlunoModel(
-						cadastroAlunoService.buscarPorId(alunoId)));
+	public ResponseEntity<AlunoModel> buscarPorId(@PathVariable Long alunoId) {
+		return ResponseEntity.ok(alunoModelMapper.toModel(cadastroAlunoService.buscarPorId(alunoId)));
 	}
-	
+
 	@GetMapping(value = "/email/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<AlunoModel>> buscarPorEmail(@PathVariable("email") String email){
-		return ResponseEntity.ok(
-				alunoModelMapper.toCollectionAlunoModel(
-						alunoRepository.findByEmailContaining(email)));
+	public ResponseEntity<List<AlunoModel>> buscarPorEmail(@PathVariable("email") String email) {
+		return ResponseEntity.ok(alunoModelMapper.toCollectionModel(alunoRepository.findByEmailContaining(email)));
 	}
-	
+
 	@GetMapping(value = "/nome/{nome}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<AlunoModel>> buscarPorNome(@PathVariable("nome") String nome){
-		return ResponseEntity.ok(
-				alunoModelMapper.toCollectionAlunoModel(
-						alunoRepository.findByNomeContaining(nome)));
+	public ResponseEntity<List<AlunoModel>> buscarPorNome(@PathVariable("nome") String nome) {
+		return ResponseEntity.ok(alunoModelMapper.toCollectionModel(alunoRepository.findByNomeContaining(nome)));
 	}
-	
+
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<AlunoModel> cadastrar(@RequestBody @Valid AlunoInput dto){
+	public ResponseEntity<AlunoModel> cadastrar(@RequestBody @Valid AlunoInput dto) {
 		return ResponseEntity.ok(
-					alunoModelMapper.toAlunoModel(
-							cadastroAlunoService.matricularAluno(
-									alunoModelDisassembler.toEntity(dto))));
+				alunoModelMapper.toModel(cadastroAlunoService.matricularAluno(alunoModelDisassembler.toEntity(dto))));
 	}
-	
+
 	@PutMapping("/{alunoId}/endereco")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void cadastrarEndereco(@RequestBody @Valid EnderecoInput enderecoInput, @PathVariable Long alunoId) {
 		cadastroAlunoService.cadastrarEndereco(enderecoInput, alunoId);
 	}
-	
+
 	@GetMapping(value = "/{alunoId}/endereco", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ResponseEntity<?> buscarEndereco(@PathVariable Long alunoId) {
-		return cadastroAlunoService.buscarEndereco(alunoId).isPresent() 
-				? ResponseEntity.ok(enderecoModelMapper.toModel(cadastroAlunoService.buscarEndereco(alunoId).get()))
-				: ResponseEntity.noContent().build();
-	}
+		Optional<Endereco> optionalEndereco = cadastroAlunoService.buscarEndereco(alunoId);
+		
+		if(optionalEndereco.isPresent()) {
+			EnderecoModel enderecoModel = enderecoModelMapper.toModel(optionalEndereco.get());
 	
+			enderecoModel.add(apiLinkBuilder.linkToEnderecoAluno(alunoId, IanaLinkRelations.SELF.toString()));
+	
+			enderecoModel.getCidade()
+					.add(apiLinkBuilder.linkToCidade(enderecoModel.getCidade().getId(), IanaLinkRelations.SELF.toString()));
+	
+			enderecoModel.getCidade().getEstado().add(apiLinkBuilder
+					.linkToEstado(enderecoModel.getCidade().getEstado().getId(), IanaLinkRelations.SELF.toString()));
+			
+			return ResponseEntity.ok(enderecoModel);
+		}
+
+		return ResponseEntity.noContent().build();
+	}
+
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	@PutMapping("/{alunoId}") 
-	public void atualizar(@RequestBody @Valid AlunoInput dto, @PathVariable Long alunoId){
+	@PutMapping("/{alunoId}")
+	public void atualizar(@RequestBody @Valid AlunoInput dto, @PathVariable Long alunoId) {
 		cadastroAlunoService.atualizar(dto, alunoId);
 	}
-	
+
 	@PutMapping("/{alunoId}/ativar-matricula")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void ativarMatricula(@PathVariable Long alunoId) {
+	public ResponseEntity<Void> ativarMatricula(@PathVariable Long alunoId) {
 		cadastroAlunoService.ativarMatricula(alunoId);
+
+		return ResponseEntity.noContent().build();
 	}
-	
+
 	@PutMapping("/{alunoId}/desativar-matricula")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void desativarMatricula(@PathVariable Long alunoId) {
+	public ResponseEntity<Void> desativarMatricula(@PathVariable Long alunoId) {
 		cadastroAlunoService.desativarMatricula(alunoId);
+
+		return ResponseEntity.noContent().build();
 	}
-	
+
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@DeleteMapping("/{alunoId}")
-	public void excluir(@PathVariable Long alunoId){
+	public void excluir(@PathVariable Long alunoId) {
 		cadastroAlunoService.excluir(alunoId);
 	}
-	
+
 	private Pageable traduzirPageable(Pageable pageable) {
-		var mapeamento = Map.of(
-				"nome", "nome");
-		
+		var mapeamento = Map.of("nome", "nome");
+
 		return PageableTranslator.translate(pageable, mapeamento);
 	}
-	
+
 }

@@ -18,7 +18,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/media/aluno/{alunoId}/turma/{turmaId}")
 @AllArgsConstructor
-public class MediaAlunoResource implements MediaAlunoResourceOpenApi {
+public class MediaAlunoController implements MediaAlunoResourceOpenApi {
 
 	private MediaAlunoService mediaAlunoService;
 	

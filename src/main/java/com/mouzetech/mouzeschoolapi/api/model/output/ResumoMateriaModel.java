@@ -1,11 +1,15 @@
 package com.mouzetech.mouzeschoolapi.api.model.output;
 
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
+
 import com.mouzetech.mouzeschoolapi.domain.model.enumeration.GrauEnsino;
 import com.mouzetech.mouzeschoolapi.domain.model.enumeration.SerieEnsino;
 
 import io.swagger.annotations.ApiModelProperty;
 
-public class ResumoMateriaModel {
+@Relation(collectionRelation = "materias")
+public class ResumoMateriaModel extends RepresentationModel<ResumoMateriaModel> {
 	
 	@ApiModelProperty(example = "1")
 	private Long id;

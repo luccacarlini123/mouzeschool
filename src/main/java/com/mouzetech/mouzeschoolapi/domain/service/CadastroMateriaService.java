@@ -6,7 +6,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.mouzetech.mouzeschoolapi.api.model.input.CadastrarMateriaInput;
+import com.mouzetech.mouzeschoolapi.api.model.input.MateriaInput;
 import com.mouzetech.mouzeschoolapi.domain.exception.MateriaNaoEncontradaException;
 import com.mouzetech.mouzeschoolapi.domain.exception.NegocioException;
 import com.mouzetech.mouzeschoolapi.domain.model.Materia;
@@ -53,11 +53,11 @@ public class CadastroMateriaService {
 	}
 	
 	@Transactional
-	public Materia cadastrar(CadastrarMateriaInput dto) {
+	public Materia cadastrar(MateriaInput dto) {
 		Materia materia = materiaModelDisassembler.toEntity(dto);		
 		materia.setGrauEnsino(GrauEnsino.toEnum(dto.getGrauEnsino()));
 		materia.setSerieEnsino(SerieEnsino.toEnum(dto.getSerieEnsino()));
-		materia.setStatusMateria(StatusGeral.DESATIVADA);
+		materia.setStatus(StatusGeral.DESATIVADA);
 		return materiaRepository.save(materia);
 	}
 	

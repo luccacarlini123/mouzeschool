@@ -1,30 +1,34 @@
 package com.mouzetech.mouzeschoolapi.mapper.assembler;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
+import com.mouzetech.mouzeschoolapi.api.controller.NotaController;
 import com.mouzetech.mouzeschoolapi.api.model.output.NotasDaTurmaModel;
 import com.mouzetech.mouzeschoolapi.domain.model.Nota;
 
-import lombok.AllArgsConstructor;
-
-@AllArgsConstructor
 @Component
-public class NotasDaTurmaModelAssembler {
+public class NotasDaTurmaModelAssembler extends RepresentationModelAssemblerSupport<Nota, NotasDaTurmaModel> {
 
+	public NotasDaTurmaModelAssembler() {
+		super(NotaController.class, NotasDaTurmaModel.class);
+	}
+
+	@Autowired
 	private ModelMapper modelMapper;
 	
+	@Override
 	public NotasDaTurmaModel toModel(Nota nota) {
-		return modelMapper.map(nota, NotasDaTurmaModel.class);
+		NotasDaTurmaModel notasDaTurmaModel = modelMapper.map(nota, NotasDaTurmaModel.class);
+		
+		return notasDaTurmaModel;
 	}
 	
-	public List<NotasDaTurmaModel> toCollectionModel(List<Nota> notas){
-		return notas.stream()
-					.map(nota -> toModel(nota))
-					.collect(Collectors.toList());
-	}
-	
+	@Override
+	public CollectionModel<NotasDaTurmaModel> toCollectionModel(Iterable<? extends Nota> entities) {
+		return super.toCollectionModel(entities);
+	}	
 }

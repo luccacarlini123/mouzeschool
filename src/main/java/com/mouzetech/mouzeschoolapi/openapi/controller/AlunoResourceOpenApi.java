@@ -2,8 +2,8 @@ package com.mouzetech.mouzeschoolapi.openapi.controller;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
 
 import com.mouzetech.mouzeschoolapi.api.model.input.AlunoInput;
@@ -23,7 +23,7 @@ import io.swagger.annotations.ApiResponses;
 public interface AlunoResourceOpenApi {
 
 	@ApiOperation(value = "Busca paginado todos os alunos", notes = "Por padrão trará apenas 10 registros, se possuir.")
-	public Page<ResumoAlunoModel> buscarAlunos(Pageable pageable);
+	public PagedModel<ResumoAlunoModel> buscarAlunos(Pageable pageable);
 
 	@ApiOperation(value = "Busca aluno por ID")
 	public ResponseEntity<AlunoModel> buscarPorId(
@@ -65,12 +65,12 @@ public interface AlunoResourceOpenApi {
 	@ApiResponses({
 		@ApiResponse(code = 404, message = "Recurso não encontrado", response = ProblemaNotFoundOpenApi.class)
 	})
-	public void ativarMatricula(
+	public ResponseEntity<Void> ativarMatricula(
 			@ApiParam(value = "ID do aluno", required = true) 
 			Long alunoId);
 	
 	@ApiOperation(value = "Desativa matrícula")
-	public void desativarMatricula(
+	public ResponseEntity<Void> desativarMatricula(
 			@ApiParam(value = "ID do aluno", required = true)
 			Long alunoId);
 	

@@ -26,7 +26,7 @@ import com.mouzetech.mouzeschoolapi.openapi.controller.EnvioEmailResourceOpenApi
 
 @RestController
 @RequestMapping("/envio-email")
-public class EnvioEmailResource implements EnvioEmailResourceOpenApi {
+public class EnvioEmailController implements EnvioEmailResourceOpenApi {
 
 	private static final String CAMINHO_TEMPLATE_ENVIO_EMAIL = "envio-email-para-todos-ou-individual.html";
 	

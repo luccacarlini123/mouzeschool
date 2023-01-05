@@ -10,13 +10,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.mouzetech.mouzeschoolapi.api.exceptionhandler.Problem;
-import com.mouzetech.mouzeschoolapi.api.model.input.CadastrarMateriaInput;
+import com.mouzetech.mouzeschoolapi.api.model.input.MateriaInput;
 import com.mouzetech.mouzeschoolapi.domain.exception.NegocioException;
 import com.mouzetech.mouzeschoolapi.domain.model.enumeration.GrauEnsino;
 import com.mouzetech.mouzeschoolapi.domain.model.enumeration.SerieEnsino;
 import com.mouzetech.mouzeschoolapi.domain.repository.MateriaRepository;
 
-public class CadastrarMateriaValidator implements ConstraintValidator<CadastrarMateria, CadastrarMateriaInput> {
+public class CadastrarMateriaValidator implements ConstraintValidator<CadastrarMateria, MateriaInput> {
 	
 	@Autowired
 	private MateriaRepository materiaRepository;
@@ -26,7 +26,7 @@ public class CadastrarMateriaValidator implements ConstraintValidator<CadastrarM
 	}
 	
 	@Override
-	public boolean isValid(CadastrarMateriaInput dto, ConstraintValidatorContext context) {
+	public boolean isValid(MateriaInput dto, ConstraintValidatorContext context) {
 		List<Problem.Object> list = new ArrayList<>();
 		
 		if(StringUtils.isNotBlank(dto.getGrauEnsino()) && GrauEnsino.toEnum(dto.getGrauEnsino()) == null) {

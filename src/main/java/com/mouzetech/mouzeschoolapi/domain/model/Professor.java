@@ -2,6 +2,7 @@ package com.mouzetech.mouzeschoolapi.domain.model;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
@@ -23,7 +24,7 @@ public class Professor extends Pessoa {
 		setEmail(email);
 	}
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "matricula_id", referencedColumnName = "id", nullable = false)
 	private Matricula matricula;
 	

@@ -1,9 +1,8 @@
 package com.mouzetech.mouzeschoolapi.api.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +31,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @RequestMapping("/cidades")
 @RestController
-public class CidadeResource implements CidadeResourceResourceOpenApi {
+public class CidadeController implements CidadeResourceResourceOpenApi {
 
 	private CadastroCidadeService cadastroCidadeService;
 	private CidadeModelAssembler cidadeModelAssembler;
@@ -40,7 +39,7 @@ public class CidadeResource implements CidadeResourceResourceOpenApi {
 	private CidadeModelDisassembler cidadeModelDisassembler;
 	
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<CidadeResumoModel> buscarTodos(){
+	public CollectionModel<CidadeResumoModel> buscarTodos(){
 		return cidadeResumoModelAssembler
 				.toCollectionModel(cadastroCidadeService.buscarTodos());
 	}

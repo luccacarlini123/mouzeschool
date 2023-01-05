@@ -7,7 +7,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.mouzetech.mouzeschoolapi.api.model.input.CadastrarProfessorInput;
+import com.mouzetech.mouzeschoolapi.api.model.input.ProfessorInput;
 import com.mouzetech.mouzeschoolapi.api.model.input.EnderecoInput;
 import com.mouzetech.mouzeschoolapi.domain.exception.NegocioException;
 import com.mouzetech.mouzeschoolapi.domain.exception.ProfessorNaoEncontradoException;
@@ -68,7 +68,7 @@ public class CadastroProfessorService {
 	}
 	
 	@Transactional
-	public void atualizar(CadastrarProfessorInput dto, Long professorId) {
+	public void atualizar(ProfessorInput dto, Long professorId) {
 		Professor professor = buscarPorId(professorId);
 		Matricula matricula = professor.getMatricula();
 		

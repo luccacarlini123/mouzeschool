@@ -4,26 +4,49 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
+import com.mouzetech.mouzeschoolapi.api.ApiLinkBuilder;
+import com.mouzetech.mouzeschoolapi.api.controller.AlunoController;
 import com.mouzetech.mouzeschoolapi.api.model.output.AlunoModel;
 import com.mouzetech.mouzeschoolapi.domain.model.Aluno;
 
-import lombok.AllArgsConstructor;
-
 @Component
-@AllArgsConstructor
-public class AlunoModelAssembler {
+public class AlunoModelAssembler extends RepresentationModelAssemblerSupport<Aluno, AlunoModel> {
 
+	public AlunoModelAssembler() {
+		super(AlunoController.class, AlunoModel.class);
+	}
+
+	@Autowired
 	private ModelMapper modelMapper;
 	
-	public AlunoModel toAlunoModel(Aluno aluno) {
-		return modelMapper.map(aluno, AlunoModel.class);
+	@Autowired
+	private ApiLinkBuilder apiLinkBuilder;
+	
+	public AlunoModel toModel(Aluno aluno) {
+		AlunoModel alunoModel = createModelWithId(aluno.getId(), aluno); 
+		modelMapper.map(aluno, alunoModel);
+		
+		alunoModel.add(apiLinkBuilder.linkToAlunos("alunos"));
+		alunoModel.add(apiLinkBuilder.linkToEnderecoAluno(alunoModel.getId(), "endereco"));
+		
+		if(aluno.matriculaAtivada()) {
+			alunoModel.add(apiLinkBuilder.linkToDesativarMatriculaAluno(alunoModel.getId(), "desativar-matricula"));
+		}
+		
+		if(aluno.matriculaDesativada()) {
+			alunoModel.add(apiLinkBuilder.linkToAtivarMatriculaAluno(alunoModel.getId(), "ativar-matricula"));
+		}
+		
+		return alunoModel;
 	}
 	
-	public List<AlunoModel> toCollectionAlunoModel(List<Aluno> alunos){
+	public List<AlunoModel> toCollectionModel(List<Aluno> alunos){
 		return alunos.stream()
-				.map(aluno -> toAlunoModel(aluno))
+				.map(aluno -> toModel(aluno))
 				.collect(Collectors.toList());
 	}
 }

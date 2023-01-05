@@ -1,29 +1,43 @@
 package com.mouzetech.mouzeschoolapi.mapper.assembler;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
+import com.mouzetech.mouzeschoolapi.api.ApiLinkBuilder;
+import com.mouzetech.mouzeschoolapi.api.controller.TurmaController;
 import com.mouzetech.mouzeschoolapi.api.model.output.ResumoTurmaModel;
 import com.mouzetech.mouzeschoolapi.domain.model.Turma;
 
-import lombok.AllArgsConstructor;
-
 @Component
-@AllArgsConstructor
-public class ResumoTurmaModelAssembler {
+public class ResumoTurmaModelAssembler extends RepresentationModelAssemblerSupport<Turma, ResumoTurmaModel> {
 
+	public ResumoTurmaModelAssembler() {
+		super(TurmaController.class, ResumoTurmaModel.class);
+	}
+
+	@Autowired
 	private ModelMapper modelMapper;
 	
+	@Autowired
+	private ApiLinkBuilder apiLinkBuilder;
+	
 	public ResumoTurmaModel toModel(Turma turma) {
-		return modelMapper.map(turma, ResumoTurmaModel.class);
+		ResumoTurmaModel resumoTurmaModel = createModelWithId(turma.getId(), turma);
+		modelMapper.map(turma, resumoTurmaModel);
+		
+		return resumoTurmaModel;
 	}
 	
-	public List<ResumoTurmaModel> toCollectionModel(List<Turma> turmas){
-		return turmas.stream()
-				.map(turma -> toModel(turma))	
-				.collect(Collectors.toList());
+	@Override
+	public CollectionModel<ResumoTurmaModel> toCollectionModel(Iterable<? extends Turma> entities) {
+		CollectionModel<ResumoTurmaModel> resumoTurmaCollectionModel = super.toCollectionModel(entities);
+		
+		resumoTurmaCollectionModel.add(apiLinkBuilder.linkToTurmas(IanaLinkRelations.SELF.toString()));
+		
+		return resumoTurmaCollectionModel;
 	}
 }

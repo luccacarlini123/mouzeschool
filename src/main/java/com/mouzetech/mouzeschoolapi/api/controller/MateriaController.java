@@ -4,8 +4,10 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mouzetech.mouzeschoolapi.api.model.input.CadastrarMateriaInput;
+import com.mouzetech.mouzeschoolapi.api.model.input.MateriaInput;
 import com.mouzetech.mouzeschoolapi.api.model.output.MateriaModel;
 import com.mouzetech.mouzeschoolapi.api.model.output.ResumoMateriaModel;
 import com.mouzetech.mouzeschoolapi.domain.model.Materia;
@@ -31,7 +33,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/materias")
 @AllArgsConstructor
-public class MateriaResource implements MateriaResourceOpenApi {
+public class MateriaController implements MateriaResourceOpenApi {
 
 	private MateriaRepository materiaRepository;
 	private CadastroMateriaService cadastroMateriaService;
@@ -40,10 +42,9 @@ public class MateriaResource implements MateriaResourceOpenApi {
 	
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(code = HttpStatus.OK)
-	public List<ResumoMateriaModel> buscarTodas() {
+	public CollectionModel<ResumoMateriaModel> buscarTodas() {
 		return resumoMateriaModelAssembler.toCollectionModel(materiaRepository.findAll());
 	}
-	
 	
 	@ResponseStatus(code = HttpStatus.OK)
 	@GetMapping(path = "/{materiaId}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -52,27 +53,27 @@ public class MateriaResource implements MateriaResourceOpenApi {
 	}
 	
 	@GetMapping(value = "/nome/{nome}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<MateriaModel> buscarPorNomeContaining(@PathVariable String nome) {
+	public CollectionModel<MateriaModel> buscarPorNomeContaining(@PathVariable String nome) {
 		List<Materia> materias = cadastroMateriaService.buscarPorNomeContaining(nome);
 		return materiaModelMapper.toCollectionModel(materias);
 	}
 	
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(code = HttpStatus.OK)
-	public MateriaModel cadastrar(@RequestBody @Valid CadastrarMateriaInput dto) {
+	public MateriaModel cadastrar(@RequestBody @Valid MateriaInput dto) {
 		return materiaModelMapper.toModel(cadastroMateriaService.cadastrar(dto));
 	}
 	
 	@PutMapping("/ativar/{materiaId}")
-	@ResponseStatus(HttpStatus.OK)
-	public void ativarMateria(@PathVariable Long materiaId){
+	public ResponseEntity<Void> ativarMateria(@PathVariable Long materiaId){
 		cadastroMateriaService.ativar(materiaId);
+		return ResponseEntity.ok().build();
 	}
 	
 	@PutMapping("/desativar/{materiaId}")
-	@ResponseStatus(HttpStatus.OK)
-	public void desativarMateria(@PathVariable Long materiaId){
+	public ResponseEntity<Void> desativarMateria(@PathVariable Long materiaId){
 		cadastroMateriaService.desativar(materiaId);
+		return ResponseEntity.ok().build();
 	}
 	
 	@DeleteMapping("/{materiaId}")

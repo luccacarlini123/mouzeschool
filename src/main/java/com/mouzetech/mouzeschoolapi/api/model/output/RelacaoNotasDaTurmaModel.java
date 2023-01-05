@@ -1,11 +1,13 @@
 package com.mouzetech.mouzeschoolapi.api.model.output;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter@Setter
-public class RelacaoNotasDaTurmaModel {
+public class RelacaoNotasDaTurmaModel extends RepresentationModel<RelacaoNotasDaTurmaModel> {
 	@ApiModelProperty(example = "Lucca")
 	private String nomeAluno;
 	

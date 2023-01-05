@@ -3,6 +3,7 @@ package com.mouzetech.mouzeschoolapi.domain.model;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -46,22 +47,23 @@ public class Materia {
 	private SerieEnsino serieEnsino;
 	
 	@Enumerated(EnumType.STRING)
-	private StatusGeral statusMateria;
+	@Column(name = "status_materia")
+	private StatusGeral status;
 	
 	public boolean desativada() {
-		return this.statusMateria.equals(StatusGeral.DESATIVADA);
+		return this.status.equals(StatusGeral.DESATIVADA);
 	}
 	
 	public boolean ativada() {
-		return this.statusMateria.equals(StatusGeral.ATIVADA);
+		return this.status.equals(StatusGeral.ATIVADA);
 	}
 	
 	public void ativar() {
-		setStatusMateria(StatusGeral.ATIVADA);
+		setStatus(StatusGeral.ATIVADA);
 	}
 	
 	public void desativar() {
-		setStatusMateria(StatusGeral.DESATIVADA);
+		setStatus(StatusGeral.DESATIVADA);
 	}
 	
 	@PrePersist

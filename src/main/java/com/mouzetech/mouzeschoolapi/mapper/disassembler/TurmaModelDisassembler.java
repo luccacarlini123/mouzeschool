@@ -3,7 +3,7 @@ package com.mouzetech.mouzeschoolapi.mapper.disassembler;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
-import com.mouzetech.mouzeschoolapi.api.model.input.CadastrarTurmaInput;
+import com.mouzetech.mouzeschoolapi.api.model.input.TurmaInput;
 import com.mouzetech.mouzeschoolapi.api.model.output.TurmaModel;
 import com.mouzetech.mouzeschoolapi.domain.model.Turma;
 
@@ -15,7 +15,7 @@ public class TurmaModelDisassembler {
 
 	private ModelMapper modelMapper;
 	
-	public Turma toEntity(CadastrarTurmaInput dto) {
+	public Turma toEntity(TurmaInput dto) {
 		return modelMapper.map(dto, Turma.class);
 	}
 	

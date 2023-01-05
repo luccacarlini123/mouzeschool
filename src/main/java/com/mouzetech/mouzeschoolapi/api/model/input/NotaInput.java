@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-public class CadastrarNotaInput {
+public class NotaInput {
 	
 	@ApiModelProperty(example = "1")
 	private Long alunoId;

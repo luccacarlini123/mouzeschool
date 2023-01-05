@@ -1,7 +1,6 @@
 package com.mouzetech.mouzeschoolapi.openapi.controller;
 
-import java.util.List;
-
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 
 import com.mouzetech.mouzeschoolapi.api.model.input.EstadoInput;
@@ -16,7 +15,7 @@ import io.swagger.annotations.ApiParam;
 public interface EstadoResourceOpenApi {
 
 	@ApiOperation(value = "Busca todos os estados")
-	public ResponseEntity<List<ResumoEstadoModel>> buscarTodos();
+	public CollectionModel<ResumoEstadoModel> buscarTodos();
 	
 	@ApiOperation(value = "Busca um estado por ID")
 	public ResponseEntity<EstadoModel> buscarPorId(

@@ -1,29 +1,43 @@
 package com.mouzetech.mouzeschoolapi.mapper.assembler;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
+import com.mouzetech.mouzeschoolapi.api.ApiLinkBuilder;
+import com.mouzetech.mouzeschoolapi.api.controller.EstadoController;
 import com.mouzetech.mouzeschoolapi.api.model.output.ResumoEstadoModel;
 import com.mouzetech.mouzeschoolapi.domain.model.Estado;
 
-import lombok.AllArgsConstructor;
-
 @Component
-@AllArgsConstructor
-public class ResumoEstadoModelAssembler {
+public class ResumoEstadoModelAssembler extends RepresentationModelAssemblerSupport<Estado, ResumoEstadoModel> {
 
+	public ResumoEstadoModelAssembler() {
+		super(EstadoController.class, ResumoEstadoModel.class);
+	}
+
+	@Autowired
 	private ModelMapper modelMapper;
 	
+	@Autowired
+	private ApiLinkBuilder apiLinkBuilder;
+	
 	public ResumoEstadoModel toModel(Estado estado) {
-		return modelMapper.map(estado, ResumoEstadoModel.class);
+		ResumoEstadoModel resumoEstadoModel = createModelWithId(estado.getId(), estado);
+		modelMapper.map(estado, resumoEstadoModel);
+		
+		return resumoEstadoModel;
 	}
 	
-	public List<ResumoEstadoModel> toCollectionModel(List<Estado> estados){
-		return estados.stream()
-				.map(estado -> toModel(estado))
-				.collect(Collectors.toList());
+	@Override
+	public CollectionModel<ResumoEstadoModel> toCollectionModel(Iterable<? extends Estado> entities) {
+		CollectionModel<ResumoEstadoModel> collectionResumoEstadoModel = super.toCollectionModel(entities);
+		
+		collectionResumoEstadoModel.add(apiLinkBuilder.linkToEstados(IanaLinkRelations.SELF.toString()));
+		
+		return collectionResumoEstadoModel;
 	}
 }

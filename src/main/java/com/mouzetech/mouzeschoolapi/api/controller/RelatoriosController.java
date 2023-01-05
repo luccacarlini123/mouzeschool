@@ -16,7 +16,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/relatorios")
 @AllArgsConstructor
-public class RelatoriosResource implements RelatoriosResourceOpenApi {
+public class RelatoriosController implements RelatoriosResourceOpenApi {
 
 	private TurmaReportService turmaReportService;
 	

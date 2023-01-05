@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter@Setter@CadastrarMateria
-public class CadastrarMateriaInput {
+public class MateriaInput {
 
 	@ApiModelProperty(example = "Matemática", required = true)
 	@NotBlank

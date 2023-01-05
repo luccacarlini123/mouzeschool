@@ -1,9 +1,8 @@
 package com.mouzetech.mouzeschoolapi.api.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mouzetech.mouzeschoolapi.api.model.input.CadastrarProfessorInput;
 import com.mouzetech.mouzeschoolapi.api.model.input.EnderecoInput;
+import com.mouzetech.mouzeschoolapi.api.model.input.ProfessorInput;
 import com.mouzetech.mouzeschoolapi.api.model.output.ProfessorModel;
 import com.mouzetech.mouzeschoolapi.api.model.output.ResumoProfessorModel;
 import com.mouzetech.mouzeschoolapi.domain.repository.ProfessorRepository;
@@ -34,7 +33,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/professores")
 @AllArgsConstructor
-public class ProfessorResource implements ProfessorResourceOpenApi {
+public class ProfessorController implements ProfessorResourceOpenApi {
 
 	private ProfessorRepository professorRepository;
 	private ProfessorModelAssembler professorModelMapper;
@@ -44,7 +43,7 @@ public class ProfessorResource implements ProfessorResourceOpenApi {
 	private ProfessorModelDisassembler professorModelDisassembler;
 	
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<ResumoProfessorModel> buscarProfessores(){
+	public CollectionModel<ResumoProfessorModel> buscarProfessores(){
 		return resumoProfessorModelMapper.toCollectionModel(professorRepository.buscarProfessoresComDadosResumidos());
 	}
 	
@@ -54,25 +53,22 @@ public class ProfessorResource implements ProfessorResourceOpenApi {
 	}
 	
 	@GetMapping(value = "/email/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ProfessorModel>> buscarPorEmail(@PathVariable("email") String email){
-		return ResponseEntity.ok(
-				professorModelMapper.toCollectionModel(
-						professorRepository.findByEmailContaining(email)));
+	public CollectionModel<ProfessorModel> buscarPorEmail(@PathVariable("email") String email){
+		return professorModelMapper.toCollectionModel(
+						professorRepository.findByEmailContaining(email));
 	}
 	
 	@GetMapping(value = "/nome/{nome}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ProfessorModel>> buscarPorNome(@PathVariable("nome") String nome){
-		return ResponseEntity.ok(
-				professorModelMapper.toCollectionModel(
-						professorRepository.findByNomeContaining(nome)));
+	public CollectionModel<ProfessorModel> buscarPorNome(@PathVariable("nome") String nome){
+		return professorModelMapper.toCollectionModel(
+						professorRepository.findByNomeContaining(nome));
 	}
 	
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ProfessorModel> cadastrar(@RequestBody @Valid CadastrarProfessorInput dto) {
-		return ResponseEntity.ok(
-				professorModelMapper.toModel(
+	public ProfessorModel cadastrar(@RequestBody @Valid ProfessorInput dto) {
+		return professorModelMapper.toModel(
 						cadastroProfessorService.matricularProfessor(
-								professorModelDisassembler.toEntity(dto))));
+								professorModelDisassembler.toEntity(dto)));
 	}
 	
 	@PutMapping("/{professorId}/endereco")
@@ -91,7 +87,7 @@ public class ProfessorResource implements ProfessorResourceOpenApi {
 	
 	@PutMapping("/{professorId}") 
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void atualizar(@RequestBody @Valid CadastrarProfessorInput dto, @PathVariable Long professorId){
+	public void atualizar(@RequestBody @Valid ProfessorInput dto, @PathVariable Long professorId){
 		cadastroProfessorService.atualizar(dto, professorId);
 	}
 	
@@ -102,14 +98,14 @@ public class ProfessorResource implements ProfessorResourceOpenApi {
 	}
 	
 	@PutMapping("/{professorId}/ativar-matricula")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void ativarMatricula(@PathVariable Long professorId) {
+	public ResponseEntity<Void> ativarMatricula(@PathVariable Long professorId) {
 		cadastroProfessorService.ativarMatricula(professorId);
+		return ResponseEntity.noContent().build();
 	}
 	
 	@PutMapping("/{professorId}/desativar-matricula")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void desativarMatricula(@PathVariable Long professorId) {
+	public ResponseEntity<Void> desativarMatricula(@PathVariable Long professorId) {
 		cadastroProfessorService.desativarMatricula(professorId);
+		return ResponseEntity.noContent().build();
 	}
 }

@@ -1,36 +1,46 @@
 package com.mouzetech.mouzeschoolapi.mapper.assembler;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
-import com.mouzetech.mouzeschoolapi.api.model.input.CidadeInput;
-import com.mouzetech.mouzeschoolapi.api.model.output.CidadeModel;
+import com.mouzetech.mouzeschoolapi.api.ApiLinkBuilder;
+import com.mouzetech.mouzeschoolapi.api.controller.CidadeController;
 import com.mouzetech.mouzeschoolapi.api.model.output.CidadeResumoModel;
 import com.mouzetech.mouzeschoolapi.domain.model.Cidade;
-import com.mouzetech.mouzeschoolapi.domain.model.Estado;
-
-import lombok.AllArgsConstructor;
 
 @Component
-@AllArgsConstructor
-public class CidadeResumoModelAssembler {
+public class CidadeResumoModelAssembler extends RepresentationModelAssemblerSupport<Cidade, CidadeResumoModel> {
 
+	public CidadeResumoModelAssembler() {
+		super(CidadeController.class, CidadeResumoModel.class);
+	}
+
+	@Autowired
 	private ModelMapper modelMapper;
 	
+	@Autowired
+	private ApiLinkBuilder apiLinkBuilder;
+	
 	public CidadeResumoModel toModel(Cidade cidade) {
-		CidadeResumoModel model = new CidadeResumoModel();
-		model.setId(cidade.getId());
-		model.setNome(cidade.getNome());
-		model.setEstado(cidade.getEstado().getNome());
-		return model;
+		CidadeResumoModel cidadeResumoModel = createModelWithId(cidade.getId(), cidade);
+		cidadeResumoModel.setId(cidade.getId());
+		cidadeResumoModel.setNome(cidade.getNome());
+		cidadeResumoModel.setEstado(cidade.getEstado().getNome());
+		
+		return cidadeResumoModel;
 	}
 	
-	public List<CidadeResumoModel> toCollectionModel(List<Cidade> cidades){
-		return cidades.stream()
-				.map(cidade -> toModel(cidade))
-				.collect(Collectors.toList());
+	@Override
+	public CollectionModel<CidadeResumoModel> toCollectionModel(Iterable<? extends Cidade> entities) {
+		CollectionModel<CidadeResumoModel> collectionCidadeResumoModel = super.toCollectionModel(entities);
+		
+		collectionCidadeResumoModel.add(apiLinkBuilder.linkToCidades(IanaLinkRelations.SELF.toString()));
+		
+		return collectionCidadeResumoModel;
 	}
+	
 }

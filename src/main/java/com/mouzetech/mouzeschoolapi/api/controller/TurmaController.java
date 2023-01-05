@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mouzetech.mouzeschoolapi.api.model.input.AlocarProfessorEmTurmaInput;
-import com.mouzetech.mouzeschoolapi.api.model.input.CadastrarTurmaInput;
+import com.mouzetech.mouzeschoolapi.api.model.input.TurmaInput;
 import com.mouzetech.mouzeschoolapi.api.model.output.GradeCurricularModel;
 import com.mouzetech.mouzeschoolapi.api.model.output.ResumoAlunoModel;
 import com.mouzetech.mouzeschoolapi.api.model.output.ResumoTurmaModel;
@@ -41,7 +42,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/turmas")
 @AllArgsConstructor
-public class TurmaResource implements TurmaResourceOpenApi {
+public class TurmaController implements TurmaResourceOpenApi {
 
 	private TurmaRepository turmaRepository;
 	
@@ -63,7 +64,7 @@ public class TurmaResource implements TurmaResourceOpenApi {
 	
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.OK)
-	public List<ResumoTurmaModel> buscarTurmas(@RequestParam(required = false, defaultValue = "true") boolean ativo){
+	public CollectionModel<ResumoTurmaModel> buscarTurmas(@RequestParam(required = false, defaultValue = "true") boolean ativo){
 		List<Turma> listTurma = null;
 		
 		if(ativo == false) {
@@ -81,9 +82,15 @@ public class TurmaResource implements TurmaResourceOpenApi {
 		return turmaModelMapper.toModel(cadastroTurmaService.buscarPorId(turmaId));
 	}
 	
+	@ResponseStatus(HttpStatus.OK)
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = "/nome/{turmaNome}")
+	public Turma buscarPorNome(@PathVariable String turmaNome) {
+		return cadastroTurmaService.buscarPorNome(turmaNome);
+	}
+	
 	@GetMapping(value = "/{turmaId}/grade-curricular", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.OK)
-	public GradeCurricularModel buscarMateriasProfessoresPorTurma(@PathVariable Long turmaId){
+	public GradeCurricularModel buscarGradeCurricularTurma(@PathVariable Long turmaId){
 		Turma turma = cadastroTurmaService.buscarPorId(turmaId);
 		
 		return cadastroTurmaMateriaProfessorService.buscarGradeCurricularPorTurma(turma);		
@@ -99,7 +106,7 @@ public class TurmaResource implements TurmaResourceOpenApi {
 	
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.OK)
-	public ResponseEntity<TurmaModel> cadastrar(@RequestBody @Valid CadastrarTurmaInput dto){
+	public ResponseEntity<TurmaModel> cadastrar(@RequestBody @Valid TurmaInput dto){
 		return ResponseEntity.ok(turmaModelMapper.toModel(cadastroTurmaService.cadastrar(dto)));
 	}
 	
@@ -116,15 +123,15 @@ public class TurmaResource implements TurmaResourceOpenApi {
 	}
 	
 	@PutMapping("/ativar/{turmaId}")
-	@ResponseStatus(HttpStatus.OK)
-	public void ativarTurma(@PathVariable Long turmaId){
+	public ResponseEntity<Void> ativarTurma(@PathVariable Long turmaId){
 		cadastroTurmaService.ativar(turmaId);
+		return ResponseEntity.ok().build();
 	}
 	
 	@PutMapping("/desativar/{turmaId}")
-	@ResponseStatus(HttpStatus.OK)
-	public void desativarTurma(@PathVariable Long turmaId){
+	public ResponseEntity<Void> desativarTurma(@PathVariable Long turmaId){
 		cadastroTurmaService.desativar(turmaId);
+		return ResponseEntity.ok().build();
 	}
 	
 	@PutMapping("/mudar-aluno-de-turma")

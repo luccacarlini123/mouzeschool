@@ -1,8 +1,9 @@
 package com.mouzetech.mouzeschoolapi.openapi.controller;
 
-import java.util.List;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.http.ResponseEntity;
 
-import com.mouzetech.mouzeschoolapi.api.model.input.CadastrarMateriaInput;
+import com.mouzetech.mouzeschoolapi.api.model.input.MateriaInput;
 import com.mouzetech.mouzeschoolapi.api.model.output.MateriaModel;
 import com.mouzetech.mouzeschoolapi.api.model.output.ResumoMateriaModel;
 
@@ -14,7 +15,7 @@ import io.swagger.annotations.ApiParam;
 public interface MateriaResourceOpenApi {
 
 	@ApiOperation(value = "Busca todas as matérias")
-	public List<ResumoMateriaModel> buscarTodas();
+	public CollectionModel<ResumoMateriaModel> buscarTodas();
 	
 	@ApiOperation(value = "Busca matéria por ID")
 	public MateriaModel buscarPorId(
@@ -22,22 +23,22 @@ public interface MateriaResourceOpenApi {
 			Long materiaId);
 	
 	@ApiOperation(value = "Busca matéria por nome")
-	public List<MateriaModel> buscarPorNomeContaining(
+	public CollectionModel<MateriaModel> buscarPorNomeContaining(
 			@ApiParam(value = "Nome da matéria", required = true)
 			String nome);
 	
 	@ApiOperation(value = "Salva uma nova matéria")
 	public MateriaModel cadastrar(
 			@ApiParam(value = "Representação de uma matéria a ser cadastrada", name = "corpo")
-			CadastrarMateriaInput dto);
+			MateriaInput dto);
 	
 	@ApiOperation(value = "Ativa matéria")
-	public void ativarMateria(
+	public ResponseEntity<Void> ativarMateria(
 			@ApiParam(value = "ID da matéria", required = true)
 			Long materiaId);
 	
 	@ApiOperation(value = "Desativa matéria")
-	public void desativarMateria(
+	public ResponseEntity<Void> desativarMateria(
 			@ApiParam(value = "ID da matéria", required = true)
 			Long materiaId);
 	

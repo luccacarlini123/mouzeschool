@@ -1,7 +1,6 @@
 package com.mouzetech.mouzeschoolapi.openapi.controller;
 
-import java.util.List;
-
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 
 import com.mouzetech.mouzeschoolapi.api.model.input.CidadeInput;
@@ -16,7 +15,7 @@ import io.swagger.annotations.ApiParam;
 public interface CidadeResourceResourceOpenApi {
 
 	@ApiOperation(value = "Buscar todas")
-	public List<CidadeResumoModel> buscarTodos();
+	public CollectionModel<CidadeResumoModel> buscarTodos();
 	
 	@ApiOperation(value = "Buscar por ID")
 	public ResponseEntity<CidadeModel> buscarPorId(

@@ -2,13 +2,15 @@ package com.mouzetech.mouzeschoolapi.api.model.output;
 
 import java.time.LocalDate;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.mouzetech.mouzeschoolapi.domain.model.enumeration.GrauEnsino;
-import com.mouzetech.mouzeschoolapi.domain.model.enumeration.SerieEnsino;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
-public class MateriaModel {
+@Data
+public class MateriaModel extends RepresentationModel<MateriaModel> {
 	
 	@ApiModelProperty(example = "1")
 	private Long id;
@@ -30,61 +32,6 @@ public class MateriaModel {
 	private String serieEnsino;
 	
 	@ApiModelProperty(example = "ATIVADA")
-	private String status;
+	private String statusMateria;
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public LocalDate getDataCriacao() {
-		return dataCriacao;
-	}
-
-	public void setDataCriacao(LocalDate dataCriacao) {
-		this.dataCriacao = dataCriacao;
-	}
-
-	public String getCodigo() {
-		return codigo;
-	}
-
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
-	}
-
-	public String getGrauEnsino() {
-		return GrauEnsino.getDescricaoByEnum(GrauEnsino.valueOf(this.grauEnsino));
-	}
-
-	public void setGrauEnsino(String grauEnsino) {
-		this.grauEnsino = grauEnsino;
-	}
-
-	public String getSerieEnsino() {
-		return SerieEnsino.getDescricaoByEnum(SerieEnsino.valueOf(this.serieEnsino));
-	}
-
-	public void setSerieEnsino(String serieEnsino) {
-		this.serieEnsino = serieEnsino;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
 }

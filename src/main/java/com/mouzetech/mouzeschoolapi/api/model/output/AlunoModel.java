@@ -2,6 +2,8 @@ package com.mouzetech.mouzeschoolapi.api.model.output;
 
 import java.time.LocalDate;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -9,7 +11,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter@Setter
-public class AlunoModel {
+public class AlunoModel extends RepresentationModel<AlunoModel> {
 	
 	@ApiModelProperty(example = "1")
 	private Long id;

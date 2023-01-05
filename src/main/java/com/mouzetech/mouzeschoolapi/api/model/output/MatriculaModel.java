@@ -2,6 +2,8 @@ package com.mouzetech.mouzeschoolapi.api.model.output;
 
 import java.time.LocalDate;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mouzetech.mouzeschoolapi.domain.model.enumeration.StatusGeral;
 
@@ -11,7 +13,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class MatriculaModel {
+public class MatriculaModel extends RepresentationModel<MatriculaModel> {
 	
 	@ApiModelProperty(example = "1")
 	private Long id;	

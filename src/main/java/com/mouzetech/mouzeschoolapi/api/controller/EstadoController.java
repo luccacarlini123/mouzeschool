@@ -1,9 +1,8 @@
 package com.mouzetech.mouzeschoolapi.api.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +31,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @RestController
 @RequestMapping(path = "/estados")
-public class EstadoResource implements EstadoResourceOpenApi {
+public class EstadoController implements EstadoResourceOpenApi {
 
 	private CadastroEstadoService cadastroEstadoService;
 	private EstadoModelAssembler estadoModelMapper;
@@ -40,10 +39,9 @@ public class EstadoResource implements EstadoResourceOpenApi {
 	private EstadoModelDisassembler estadoModelDisassembler;
 	
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ResumoEstadoModel>> buscarTodos() {
-		return ResponseEntity.ok(
-				resumoEstadoModelAssembler.toCollectionModel(
-						cadastroEstadoService.buscarTodos()));
+	public CollectionModel<ResumoEstadoModel> buscarTodos() {
+		return resumoEstadoModelAssembler.toCollectionModel(
+						cadastroEstadoService.buscarTodos());
 	}
 	
 	@GetMapping(path = "/{estadoId}", produces = MediaType.APPLICATION_JSON_VALUE)

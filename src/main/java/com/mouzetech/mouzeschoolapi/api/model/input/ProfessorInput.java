@@ -14,7 +14,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter@Setter
-public class CadastrarProfessorInput {
+public class ProfessorInput {
 	
 	@ApiModelProperty(example = "Carola Nascimento", required = true)
 	@NotBlank

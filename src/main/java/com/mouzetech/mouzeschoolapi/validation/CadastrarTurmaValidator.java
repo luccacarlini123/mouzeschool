@@ -10,13 +10,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.mouzetech.mouzeschoolapi.api.exceptionhandler.Problem;
-import com.mouzetech.mouzeschoolapi.api.model.input.CadastrarTurmaInput;
+import com.mouzetech.mouzeschoolapi.api.model.input.TurmaInput;
 import com.mouzetech.mouzeschoolapi.domain.exception.NegocioException;
 import com.mouzetech.mouzeschoolapi.domain.model.enumeration.GrauEnsino;
 import com.mouzetech.mouzeschoolapi.domain.model.enumeration.SerieEnsino;
 import com.mouzetech.mouzeschoolapi.domain.repository.TurmaRepository;
 
-public class CadastrarTurmaValidator implements ConstraintValidator<CadastrarTurma, CadastrarTurmaInput> {
+public class CadastrarTurmaValidator implements ConstraintValidator<CadastrarTurma, TurmaInput> {
 	
 	@Autowired
 	private TurmaRepository turmaRepository;
@@ -26,7 +26,7 @@ public class CadastrarTurmaValidator implements ConstraintValidator<CadastrarTur
 	}
 	
 	@Override
-	public boolean isValid(CadastrarTurmaInput dto, ConstraintValidatorContext context) {
+	public boolean isValid(TurmaInput dto, ConstraintValidatorContext context) {
 		List<Problem.Object> list = new ArrayList<>();
 		
 		if(StringUtils.isNotBlank(dto.getGrauEnsino()) && GrauEnsino.toEnum(dto.getGrauEnsino()) == null) {

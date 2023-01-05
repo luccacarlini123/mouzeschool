@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mouzetech.mouzeschoolapi.api.model.filter.NotaFilter;
-import com.mouzetech.mouzeschoolapi.api.model.input.CadastrarNotaInput;
+import com.mouzetech.mouzeschoolapi.api.model.input.NotaInput;
 import com.mouzetech.mouzeschoolapi.api.model.output.NotasDaTurmaModel;
 import com.mouzetech.mouzeschoolapi.api.model.output.RelacaoNotasDaTurmaModel;
 import com.mouzetech.mouzeschoolapi.domain.exception.NegocioException;
@@ -49,7 +49,7 @@ public class CadastroNotaService {
 	private RelacaoNotasDaTurmaModelAssembler relacaoNotasDaTurmaModelAssembler;
 	
 	@Transactional
-	public void cadastrarNota(CadastrarNotaInput dto) {
+	public void cadastrarNota(NotaInput dto) {
 		Aluno aluno = cadastroAlunoService.buscarPorId(dto.getAlunoId());
 		Turma turma = cadastroTurmaService.buscarPorId(dto.getTurmaId());
 		Materia materia = cadastroMateriaService.buscarPorId(dto.getMateriaId());
@@ -119,7 +119,7 @@ public class CadastroNotaService {
 		return notasModel;
 	}
 
-	private void validarDadosAntesDeCadastrarNota(Aluno aluno, Turma turma, Materia materia, CadastrarNotaInput dto) {
+	private void validarDadosAntesDeCadastrarNota(Aluno aluno, Turma turma, Materia materia, NotaInput dto) {
 		
 		if(turma.desativada()) {
 			throw new NegocioException("Não é possível cadastrar nota em uma turma desativada");

@@ -64,7 +64,7 @@ public class CadastroProfessorTurmaService {
 			throw new NegocioException("Não é possível matricular um professor em uma turma desativada");
 		}
 		
-		if(materia.getStatusMateria().equals(StatusGeral.DESATIVADA)) {
+		if(materia.getStatus().equals(StatusGeral.DESATIVADA)) {
 			throw new NegocioException("Não é possível matricular um professor com uma matéria desativada");
 		}
 		

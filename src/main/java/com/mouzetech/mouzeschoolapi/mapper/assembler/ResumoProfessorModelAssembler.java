@@ -1,29 +1,43 @@
 package com.mouzetech.mouzeschoolapi.mapper.assembler;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
+import com.mouzetech.mouzeschoolapi.api.ApiLinkBuilder;
+import com.mouzetech.mouzeschoolapi.api.controller.ProfessorController;
 import com.mouzetech.mouzeschoolapi.api.model.output.ResumoProfessorModel;
 import com.mouzetech.mouzeschoolapi.domain.model.Professor;
 
-import lombok.AllArgsConstructor;
-
 @Component
-@AllArgsConstructor
-public class ResumoProfessorModelAssembler {
+public class ResumoProfessorModelAssembler extends RepresentationModelAssemblerSupport<Professor, ResumoProfessorModel> {
 
+	public ResumoProfessorModelAssembler() {
+		super(ProfessorController.class, ResumoProfessorModel.class);
+	}
+
+	@Autowired
 	private ModelMapper modelMapper;
 	
+	@Autowired
+	private ApiLinkBuilder apiLinkBuilder;
+	
 	public ResumoProfessorModel toModel(Professor professor) {
-		return modelMapper.map(professor, ResumoProfessorModel.class);
+		ResumoProfessorModel resumoProfessorModel = createModelWithId(professor.getId(), professor);
+		modelMapper.map(professor, resumoProfessorModel);
+		
+		return resumoProfessorModel;
 	}
 	
-	public List<ResumoProfessorModel> toCollectionModel(List<Professor> professores) {
-		return professores.stream()
-					.map(professor -> toModel(professor))
-					.collect(Collectors.toList());
+	@Override
+	public CollectionModel<ResumoProfessorModel> toCollectionModel(Iterable<? extends Professor> entities) {
+		CollectionModel<ResumoProfessorModel> resumoProfessorCollectionModel = super.toCollectionModel(entities);
+		
+		resumoProfessorCollectionModel.add(apiLinkBuilder.linkToProfessores(IanaLinkRelations.SELF.toString()));
+		
+		return resumoProfessorCollectionModel;
 	}
 }

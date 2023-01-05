@@ -1,11 +1,10 @@
 package com.mouzetech.mouzeschoolapi.openapi.controller;
 
-import java.util.List;
-
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 
-import com.mouzetech.mouzeschoolapi.api.model.input.CadastrarProfessorInput;
 import com.mouzetech.mouzeschoolapi.api.model.input.EnderecoInput;
+import com.mouzetech.mouzeschoolapi.api.model.input.ProfessorInput;
 import com.mouzetech.mouzeschoolapi.api.model.output.EnderecoModel;
 import com.mouzetech.mouzeschoolapi.api.model.output.ProfessorModel;
 import com.mouzetech.mouzeschoolapi.api.model.output.ResumoProfessorModel;
@@ -20,7 +19,7 @@ import io.swagger.annotations.ApiResponses;
 public interface ProfessorResourceOpenApi {
 
 	@ApiOperation(value = "Busca todos os professores")
-	public List<ResumoProfessorModel> buscarProfessores();
+	public CollectionModel<ResumoProfessorModel> buscarProfessores();
 	
 	@ApiOperation(value = "Busca professor por ID")
 	public ResponseEntity<ProfessorModel> buscarPorId(
@@ -28,18 +27,18 @@ public interface ProfessorResourceOpenApi {
 			Long professorId);
 	
 	@ApiOperation(value = "Busca professores por email")
-	public ResponseEntity<List<ProfessorModel>> buscarPorEmail(
+	public CollectionModel<ProfessorModel> buscarPorEmail(
 			@ApiParam(value = "Pode ser um pedaço do email ou o email completo", required = true) String email);
 	
 	@ApiOperation(value = "Busca professores por nome")
-	public ResponseEntity<List<ProfessorModel>> buscarPorNome(
+	public CollectionModel<ProfessorModel> buscarPorNome(
 			@ApiParam(value = "Pode ser um pedaço do nome ou o nome completo", required = true)
 			String nome);
 	
 	@ApiOperation(value = "Salva um professor")
-	public ResponseEntity<ProfessorModel> cadastrar(
+	public ProfessorModel cadastrar(
 			@ApiParam(value = "Representação de um novo professor a ser salvo", name = "corpo")
-			CadastrarProfessorInput dto);
+			ProfessorInput dto);
 	
 	@ApiOperation(value = "Cadastra endereço para professor")
 	public void cadastrarEndereco(
@@ -61,7 +60,7 @@ public interface ProfessorResourceOpenApi {
 	@ApiOperation(value = "Atualiza um professor")
 	public void atualizar(
 			@ApiParam(value = "Representação de um professor a ser atualizado", name = "corpo")
-			CadastrarProfessorInput dto, 
+			ProfessorInput dto, 
 			
 			@ApiParam(value = "ID do professor", required = true)
 			Long professorId);
@@ -72,12 +71,12 @@ public interface ProfessorResourceOpenApi {
 			Long professorId);
 	
 	@ApiOperation(value = "Ativa matrícula")
-	public void ativarMatricula(
+	public ResponseEntity<Void> ativarMatricula(
 			@ApiParam(value = "ID do professor", required = true)
 			Long professorId);
 	
 	@ApiOperation(value = "Desativa matrícula")
-	public void desativarMatricula(
+	public ResponseEntity<Void> desativarMatricula(
 			@ApiParam(value = "ID do professor", required = true)
 			Long professorId);	
 }
