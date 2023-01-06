@@ -28,5 +28,12 @@ public interface ProfessorRepository extends JpaRepository<Professor, Long>, Cat
 	
 	@Query(value = "select p from Professor p where p.matricula.status = 'ATIVADA'")
 	List<Professor> buscarTodosProfessoresComMatriculaAtiva();
+	
+	@Query(nativeQuery = true, value = "select professor.* from turma_materia_professor "
+			+ "	join professor on professor.id = turma_materia_professor.professor_id "
+			+ "	join turma on turma.id = turma_materia_professor.turma_id "
+			+ "	where professor.id = :professorId and turma.status_turma = 'ATIVADA'")
+	List<Professor> buscarProfessorMatriculadoEmTurmaAtiva(Long professorId);
+	
 
 }

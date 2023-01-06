@@ -119,6 +119,9 @@ public class CadastroAlunoService {
 	@Transactional
 	public void desativarMatricula(Long alunoId) {
 		Aluno aluno = buscarPorId(alunoId);
+		if(alunoRepository.buscarAlunoMatriculadoEmTurmaAtiva(alunoId).isPresent()) {
+			throw new NegocioException("Não é possível desativar a matrícula de um aluno matriculado em uma turma ativa.");
+		}
 		aluno.getMatricula().setStatus(StatusGeral.DESATIVADA);
 	}
 }

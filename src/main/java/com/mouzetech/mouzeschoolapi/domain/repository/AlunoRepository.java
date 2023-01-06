@@ -25,4 +25,12 @@ public interface AlunoRepository extends JpaRepository<Aluno, Long>, CatalogoFot
 	@Query(value = "select a from Aluno a where a.matricula.status = 'ATIVADA'")
 	List<Aluno> buscarTodosAlunosComMatriculaAtiva();
 	
+	@Query(nativeQuery = true, value = "select aluno.* from alunos_turma "
+			+ "	join aluno on aluno.id = alunos_turma.aluno_id "
+			+ "	join turma on turma.id = alunos_turma.turma_id "
+			+ "	where aluno.id = :alunoId and turma.status_turma = 'ATIVADA'")
+	Optional<Aluno> buscarAlunoMatriculadoEmTurmaAtiva(Long alunoId);
+	
+	
+	
 }

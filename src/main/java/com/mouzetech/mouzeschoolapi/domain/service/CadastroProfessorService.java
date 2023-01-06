@@ -7,8 +7,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.mouzetech.mouzeschoolapi.api.model.input.ProfessorInput;
 import com.mouzetech.mouzeschoolapi.api.model.input.EnderecoInput;
+import com.mouzetech.mouzeschoolapi.api.model.input.ProfessorInput;
 import com.mouzetech.mouzeschoolapi.domain.exception.NegocioException;
 import com.mouzetech.mouzeschoolapi.domain.exception.ProfessorNaoEncontradoException;
 import com.mouzetech.mouzeschoolapi.domain.model.Cidade;
@@ -102,14 +102,19 @@ public class CadastroProfessorService {
 	}
 	
 	@Transactional
-	public void ativarMatricula(Long alunoId) {
-		Professor professor = buscarPorId(alunoId);
+	public void ativarMatricula(Long professorId) {
+		Professor professor = buscarPorId(professorId);
 		professor.getMatricula().setStatus(StatusGeral.ATIVADA);
 	}
 	
 	@Transactional
-	public void desativarMatricula(Long alunoId) {
-		Professor professor = buscarPorId(alunoId);
+	public void desativarMatricula(Long professorId) {
+		Professor professor = buscarPorId(professorId);
+
+		if(!professorRepository.buscarProfessorMatriculadoEmTurmaAtiva(professorId).isEmpty()) {
+			throw new NegocioException("Não é possível desativar a matrícula de um professor matriculado em uma turma ativa.");
+		}
+
 		professor.getMatricula().setStatus(StatusGeral.DESATIVADA);
 	}
 	
