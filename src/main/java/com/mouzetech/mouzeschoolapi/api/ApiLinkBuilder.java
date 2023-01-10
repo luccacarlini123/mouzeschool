@@ -16,6 +16,7 @@ import com.mouzetech.mouzeschoolapi.api.controller.EstadoController;
 import com.mouzetech.mouzeschoolapi.api.controller.MateriaController;
 import com.mouzetech.mouzeschoolapi.api.controller.NotaController;
 import com.mouzetech.mouzeschoolapi.api.controller.ProfessorController;
+import com.mouzetech.mouzeschoolapi.api.controller.RelatoriosController;
 import com.mouzetech.mouzeschoolapi.api.controller.TurmaController;
 
 @Component
@@ -145,5 +146,15 @@ public class ApiLinkBuilder {
 		String notasUrl = linkTo(methodOn(NotaController.class).buscarNotasPorTurma(null, null)).toUri().toString();
 		
 		return new Link(UriTemplate.of(notasUrl, templateVariables), rel);
+	}
+	
+	public Link linkToRelatorioAlunosDaTurma(String rel, Long turmaId) {
+		return linkTo(methodOn(RelatoriosController.class).relatorioAlunosDaTurma(turmaId))
+				.withRel(rel);
+	}
+	
+	public Link linkToRelatorios(String rel) {
+		return linkTo(RelatoriosController.class)
+				.withRel(rel);
 	}
 }

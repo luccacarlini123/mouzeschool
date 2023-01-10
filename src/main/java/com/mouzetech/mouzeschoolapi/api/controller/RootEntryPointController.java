@@ -1,13 +1,13 @@
 package com.mouzetech.mouzeschoolapi.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.RepresentationModel;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mouzetech.mouzeschoolapi.api.ApiLinkBuilder;
+import com.mouzetech.mouzeschoolapi.api.model.output.RootEntryPointModel;
 import com.mouzetech.mouzeschoolapi.openapi.controller.RootEntryPointOpenApi;
 
 @RestController
@@ -28,9 +28,8 @@ public class RootEntryPointController implements RootEntryPointOpenApi {
 		rootEntryPointModel.add(apiLinkBuilder.linkToEstados("estados"));
 		rootEntryPointModel.add(apiLinkBuilder.linkToCidades("cidades"));
 		rootEntryPointModel.add(apiLinkBuilder.linkToNotasDaTurma("notas-por-turma"));
+		rootEntryPointModel.add(apiLinkBuilder.linkToRelatorios("relatorios"));
 
 		return rootEntryPointModel;
 	}
-
-	public static final class RootEntryPointModel extends RepresentationModel<RootEntryPointModel> {}
 }

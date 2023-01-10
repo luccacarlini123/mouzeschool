@@ -1,8 +1,7 @@
 package com.mouzetech.mouzeschoolapi.openapi.controller;
 
-import java.util.List;
-
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
 
@@ -31,12 +30,12 @@ public interface AlunoResourceOpenApi {
 			Long alunoId);
 	
 	@ApiOperation(value = "Busca alunos por email")
-	public ResponseEntity<List<AlunoModel>> buscarPorEmail(
+	public CollectionModel<AlunoModel> buscarPorEmail(
 			@ApiParam(value = "Email do aluno", required = true)  
 			String email);
 	
 	@ApiOperation(value = "Busca alunos por nome")
-	public ResponseEntity<List<AlunoModel>> buscarPorNome(
+	public CollectionModel<AlunoModel> buscarPorNome(
 			@ApiParam(value = "Nome do aluno", required = true) 
 			String nome);
 	

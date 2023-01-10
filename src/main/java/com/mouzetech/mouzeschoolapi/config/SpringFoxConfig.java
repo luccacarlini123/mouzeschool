@@ -1,27 +1,38 @@
 package com.mouzetech.mouzeschoolapi.config;
 
+import java.io.File;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLStreamHandler;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.domain.Page;
+import org.springframework.context.annotation.Import;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.Links;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.fasterxml.classmate.TypeResolver;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.mouzetech.mouzeschoolapi.api.exceptionhandler.Problem;
 import com.mouzetech.mouzeschoolapi.api.model.output.ResumoAlunoModel;
+import com.mouzetech.mouzeschoolapi.openapi.model.LinksModelOpenApi;
 import com.mouzetech.mouzeschoolapi.openapi.model.PageableModelOpenApi;
-import com.mouzetech.mouzeschoolapi.openapi.model.PagedResumoAlunoModel;
 import com.mouzetech.mouzeschoolapi.openapi.model.ProblemaInternalServerErrorOpenApi;
 import com.mouzetech.mouzeschoolapi.openapi.model.ProblemaNotFoundOpenApi;
+import com.mouzetech.mouzeschoolapi.openapi.model.ResumoAlunoModelOpenApi;
 
+import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RepresentationBuilder;
@@ -37,6 +48,7 @@ import springfox.documentation.spring.web.json.JacksonModuleRegistrar;
 import springfox.documentation.spring.web.plugins.Docket;
 
 @Configuration
+@Import(value = BeanValidatorPluginsConfiguration.class)
 public class SpringFoxConfig implements WebMvcConfigurer {
 
 	@Bean
@@ -56,8 +68,16 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 				.additionalModels(typeResolver.resolve(Problem.class))
 				.additionalModels(typeResolver.resolve(ProblemaNotFoundOpenApi.class))
 				.additionalModels(typeResolver.resolve(ProblemaInternalServerErrorOpenApi.class))
+				.ignoredParameterTypes(ServletWebRequest.class,
+						URL.class, URI.class, URLStreamHandler.class, Resource.class,
+						File.class, InputStream.class)
 				.directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
-				.alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(Page.class, ResumoAlunoModel.class), PagedResumoAlunoModel.class))
+				.directModelSubstitute(Links.class, LinksModelOpenApi.class)
+				
+				.alternateTypeRules(AlternateTypeRules.newRule(
+						typeResolver.resolve(PagedModel.class, ResumoAlunoModel.class), 
+						ResumoAlunoModelOpenApi.class))
+				
 			.apiInfo(apiInfo())
 			.tags(new Tag("Alunos", "Gerencia os alunos"))
 			.tags(new Tag("Professores", "Gerencia os professores"))

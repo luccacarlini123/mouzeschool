@@ -1,6 +1,5 @@
 package com.mouzetech.mouzeschoolapi.api.controller;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -11,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
@@ -89,13 +89,13 @@ public class AlunoController implements AlunoResourceOpenApi {
 	}
 
 	@GetMapping(value = "/email/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<AlunoModel>> buscarPorEmail(@PathVariable("email") String email) {
-		return ResponseEntity.ok(alunoModelMapper.toCollectionModel(alunoRepository.findByEmailContaining(email)));
+	public CollectionModel<AlunoModel> buscarPorEmail(@PathVariable("email") String email) {
+		return alunoModelMapper.toCollectionModel(alunoRepository.findByEmailContaining(email));
 	}
 
 	@GetMapping(value = "/nome/{nome}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<AlunoModel>> buscarPorNome(@PathVariable("nome") String nome) {
-		return ResponseEntity.ok(alunoModelMapper.toCollectionModel(alunoRepository.findByNomeContaining(nome)));
+	public CollectionModel<AlunoModel> buscarPorNome(@PathVariable("nome") String nome) {
+		return alunoModelMapper.toCollectionModel(alunoRepository.findByNomeContaining(nome));
 	}
 
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)

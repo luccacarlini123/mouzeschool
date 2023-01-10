@@ -1,6 +1,6 @@
 package com.mouzetech.mouzeschoolapi.openapi.controller;
 
-import com.mouzetech.mouzeschoolapi.api.controller.RootEntryPointController.RootEntryPointModel;
+import com.mouzetech.mouzeschoolapi.api.model.output.RootEntryPointModel;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

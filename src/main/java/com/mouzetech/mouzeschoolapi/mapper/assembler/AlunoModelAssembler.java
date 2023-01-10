@@ -1,10 +1,8 @@
 package com.mouzetech.mouzeschoolapi.mapper.assembler;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
@@ -34,19 +32,20 @@ public class AlunoModelAssembler extends RepresentationModelAssemblerSupport<Alu
 		alunoModel.add(apiLinkBuilder.linkToEnderecoAluno(alunoModel.getId(), "endereco"));
 		
 		if(aluno.matriculaAtivada()) {
-			alunoModel.add(apiLinkBuilder.linkToDesativarMatriculaAluno(alunoModel.getId(), "desativar-matricula"));
+			alunoModel.getMatricula().add(apiLinkBuilder.linkToDesativarMatriculaAluno(alunoModel.getId(), "desativar-matricula"));
 		}
 		
 		if(aluno.matriculaDesativada()) {
-			alunoModel.add(apiLinkBuilder.linkToAtivarMatriculaAluno(alunoModel.getId(), "ativar-matricula"));
+			alunoModel.getMatricula().add(apiLinkBuilder.linkToAtivarMatriculaAluno(alunoModel.getId(), "ativar-matricula"));
 		}
 		
 		return alunoModel;
 	}
 	
-	public List<AlunoModel> toCollectionModel(List<Aluno> alunos){
-		return alunos.stream()
-				.map(aluno -> toModel(aluno))
-				.collect(Collectors.toList());
+	@Override
+	public CollectionModel<AlunoModel> toCollectionModel(Iterable<? extends Aluno> entities) {
+		CollectionModel<AlunoModel> collectionModelAluno = super.toCollectionModel(entities);
+		
+		return collectionModelAluno;
 	}
 }
