@@ -25,7 +25,7 @@ public class AlunoModel extends RepresentationModel<AlunoModel> {
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDate dataNascimento;
 	
-	@ApiModelProperty(example = "lucca.carlini@oulook.com")
+	@ApiModelProperty(example = "lucca.carlini@outlook.com")
 	private String email;
 	
 	@ApiModelProperty(example = "741812460")

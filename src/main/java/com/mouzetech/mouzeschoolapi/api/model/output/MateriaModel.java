@@ -1,14 +1,14 @@
 package com.mouzetech.mouzeschoolapi.api.model.output;
 
-import java.time.LocalDate;
-
-import org.springframework.hateoas.RepresentationModel;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
+import java.time.LocalDate;
+
+@Relation(collectionRelation = "materias")
 @Data
 public class MateriaModel extends RepresentationModel<MateriaModel> {
 	

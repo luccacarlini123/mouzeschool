@@ -1,9 +1,11 @@
 package com.mouzetech.mouzeschoolapi.openapi.model;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+@ApiModel("PageModel")
 @Getter
 @Setter
 public class PageModelOpenApi {     

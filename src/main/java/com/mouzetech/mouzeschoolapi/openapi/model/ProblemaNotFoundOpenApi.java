@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-@ApiModel("ProblemaNotFoundOpenApi")
+@ApiModel("ProblemaNotFound")
 @Getter
 @Setter
 public class ProblemaNotFoundOpenApi {

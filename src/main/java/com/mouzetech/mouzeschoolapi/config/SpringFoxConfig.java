@@ -1,19 +1,16 @@
 package com.mouzetech.mouzeschoolapi.config;
 
-import java.io.File;
-import java.io.InputStream;
-import java.net.URI;
-import java.net.URL;
-import java.net.URLStreamHandler;
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Consumer;
-
+import com.fasterxml.classmate.TypeResolver;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.mouzetech.mouzeschoolapi.api.exceptionhandler.Problem;
+import com.mouzetech.mouzeschoolapi.api.model.output.*;
+import com.mouzetech.mouzeschoolapi.openapi.model.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Links;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpMethod;
@@ -21,23 +18,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import com.fasterxml.classmate.TypeResolver;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.mouzetech.mouzeschoolapi.api.exceptionhandler.Problem;
-import com.mouzetech.mouzeschoolapi.api.model.output.ResumoAlunoModel;
-import com.mouzetech.mouzeschoolapi.openapi.model.LinksModelOpenApi;
-import com.mouzetech.mouzeschoolapi.openapi.model.PageableModelOpenApi;
-import com.mouzetech.mouzeschoolapi.openapi.model.ProblemaInternalServerErrorOpenApi;
-import com.mouzetech.mouzeschoolapi.openapi.model.ProblemaNotFoundOpenApi;
-import com.mouzetech.mouzeschoolapi.openapi.model.ResumoAlunoModelOpenApi;
-
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RepresentationBuilder;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.builders.ResponseBuilder;
+import springfox.documentation.builders.*;
 import springfox.documentation.schema.AlternateTypeRules;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
@@ -46,6 +28,15 @@ import springfox.documentation.service.Tag;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.json.JacksonModuleRegistrar;
 import springfox.documentation.spring.web.plugins.Docket;
+
+import java.io.File;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLStreamHandler;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Consumer;
 
 @Configuration
 @Import(value = BeanValidatorPluginsConfiguration.class)
@@ -57,7 +48,7 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 		
 		return new Docket(DocumentationType.OAS_30)
 				.select()
-				.apis(RequestHandlerSelectors.basePackage("com.mouzetech.mouzeschoolapi"))
+				.apis(RequestHandlerSelectors.basePackage("com.mouzetech.mouzeschoolapi.api"))
 				.paths(PathSelectors.any())
 				.build()
 				.useDefaultResponseMessages(false)
@@ -68,15 +59,49 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 				.additionalModels(typeResolver.resolve(Problem.class))
 				.additionalModels(typeResolver.resolve(ProblemaNotFoundOpenApi.class))
 				.additionalModels(typeResolver.resolve(ProblemaInternalServerErrorOpenApi.class))
+				
 				.ignoredParameterTypes(ServletWebRequest.class,
 						URL.class, URI.class, URLStreamHandler.class, Resource.class,
 						File.class, InputStream.class)
+				
 				.directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
 				.directModelSubstitute(Links.class, LinksModelOpenApi.class)
 				
 				.alternateTypeRules(AlternateTypeRules.newRule(
 						typeResolver.resolve(PagedModel.class, ResumoAlunoModel.class), 
-						ResumoAlunoModelOpenApi.class))
+						PagedModelResumoAlunoModelOpenApi.class))
+				
+				.alternateTypeRules(AlternateTypeRules.newRule(
+						typeResolver.resolve(CollectionModel.class, AlunoModel.class), 
+						CollectionModelAlunoModelOpenApi.class))
+				
+				.alternateTypeRules(AlternateTypeRules.newRule(
+						typeResolver.resolve(CollectionModel.class, CidadeResumoModel.class), 
+						CollectionModelCidadeResumoModelOpenApi.class))
+				
+				.alternateTypeRules(AlternateTypeRules.newRule(
+						typeResolver.resolve(CollectionModel.class, MateriaModel.class),
+						CollectionModelMateriaModelOpenApi.class))
+
+				.alternateTypeRules(AlternateTypeRules.newRule(
+						typeResolver.resolve(CollectionModel.class, ResumoMateriaModel.class),
+						CollectionModelResumoMateriaModelOpenApi.class))
+
+				.alternateTypeRules(AlternateTypeRules.newRule(
+						typeResolver.resolve(CollectionModel.class, ProfessorModel.class),
+						CollectionModelProfessorModelOpenApi.class))
+
+				.alternateTypeRules(AlternateTypeRules.newRule(
+						typeResolver.resolve(CollectionModel.class, ResumoProfessorModel.class),
+						CollectionModelResumoProfessorModelOpenApi.class))
+
+				.alternateTypeRules(AlternateTypeRules.newRule(
+						typeResolver.resolve(CollectionModel.class, ResumoTurmaModel.class),
+						CollectionModelResumoTurmaModelOpenApi.class))
+
+				.alternateTypeRules(AlternateTypeRules.newRule(
+						typeResolver.resolve(CollectionModel.class, ResumoEstadoModel.class),
+						CollectionModelResumoEstadoModelOpenApi.class))
 				
 			.apiInfo(apiInfo())
 			.tags(new Tag("Alunos", "Gerencia os alunos"))

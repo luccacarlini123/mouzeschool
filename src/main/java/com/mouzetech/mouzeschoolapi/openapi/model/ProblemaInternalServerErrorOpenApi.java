@@ -1,13 +1,13 @@
 package com.mouzetech.mouzeschoolapi.openapi.model;
 
-import java.time.OffsetDateTime;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-@ApiModel("ProblemaInternalServerErrorOpenApi")
+import java.time.OffsetDateTime;
+
+@ApiModel("ProblemaInternalServerError")
 @Getter
 @Setter
 public class ProblemaInternalServerErrorOpenApi {

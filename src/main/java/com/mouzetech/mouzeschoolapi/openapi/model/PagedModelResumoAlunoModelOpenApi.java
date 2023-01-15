@@ -14,7 +14,7 @@ import lombok.Setter;
 @ApiModel("ResumoAlunosModel")
 @Getter
 @Setter
-public class ResumoAlunoModelOpenApi {
+public class PagedModelResumoAlunoModelOpenApi {
 
 	private ResumoAlunoModelEmbeddedOpenApi _embedded;
 	private Links _links;

@@ -84,8 +84,8 @@ public class TurmaController implements TurmaResourceOpenApi {
 	
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = "/nome/{turmaNome}")
-	public Turma buscarPorNome(@PathVariable String turmaNome) {
-		return cadastroTurmaService.buscarPorNome(turmaNome);
+	public TurmaModel buscarPorNome(@PathVariable String turmaNome) {
+		return turmaModelMapper.toModel(cadastroTurmaService.buscarPorNome(turmaNome));
 	}
 	
 	@GetMapping(value = "/{turmaId}/grade-curricular", produces = MediaType.APPLICATION_JSON_VALUE)

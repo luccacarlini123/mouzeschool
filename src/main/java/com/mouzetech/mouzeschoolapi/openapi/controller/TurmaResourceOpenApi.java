@@ -11,7 +11,6 @@ import com.mouzetech.mouzeschoolapi.api.model.output.GradeCurricularModel;
 import com.mouzetech.mouzeschoolapi.api.model.output.ResumoAlunoModel;
 import com.mouzetech.mouzeschoolapi.api.model.output.ResumoTurmaModel;
 import com.mouzetech.mouzeschoolapi.api.model.output.TurmaModel;
-import com.mouzetech.mouzeschoolapi.domain.model.Turma;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -77,5 +76,5 @@ public interface TurmaResourceOpenApi {
 			Long turmaNovaId);
 	
 	@ApiOperation(value = "Busca aluno por nome")
-	public Turma buscarPorNome(@ApiParam(value = "Nome do aluno", required = true, type = "query") String nome);
+	public TurmaModel buscarPorNome(@ApiParam(value = "Nome do aluno", required = true, type = "query") String nome);
 }
